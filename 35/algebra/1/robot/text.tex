@@ -1,0 +1,82 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+
+\usepackage[czech]{babel}
+\usepackage{fvextra}
+\usepackage{csquotes}
+\usepackage{parskip}
+
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{siunitx}
+
+\usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
+
+\title{Robot na Marsu}
+\author{Benjamin Swart}
+
+\pagenumbering{gobble}
+
+\begin{document}
+
+Vektory popisující pohyby robota po příkazu o posunutí o metr dopředu a doleva pojmenujeme $v_1$ a $v_2$.
+
+Pokud robotovi pošleme příkaz pro pohyb $d_0$ \si{\meter} dopředu a příkaz pro pohyb $d_1$ \si{\meter} doleva, tak se posune o $d_0 v_0 + d_1 v_1$.
+
+Každý příkaz představuje nějaký vektor, o který chceme robota posunout. V případě pohybu dopředu to je $\begin{pmatrix} n \\ 0 \end{pmatrix}$, v případě doleva to je $\begin{pmatrix} 0 \\ n \end{pmatrix}$. Tento vektor pojmenujeme $t$.
+
+Snažíme se tedy najít řešení této rovnice:
+
+\begin{equation*}
+    d_0 v_0 + d_1 v_1 = t
+\end{equation*}
+
+Vektory můžeme rozepsat na jednotlivé komponenty:
+
+\begin{equation*}
+    d_0 \begin{pmatrix}
+        {v_0}_x \\
+        {v_0}_y
+    \end{pmatrix} + d_1 \begin{pmatrix}
+        {v_1}_x \\
+        {v_1}_y
+    \end{pmatrix} = \begin{pmatrix}
+        t_x \\
+        t_y
+    \end{pmatrix}
+\end{equation*}
+
+Tuto rovnici rozdělíme na dvě rovnice:
+
+\begin{align*}
+    d_0 {v_0}_x + d_1 {v_1}_x & = t_x \\
+    d_0 {v_0}_y + d_1 {v_1}_y & = t_y
+\end{align*}
+
+Získali jsme soustavu dvou rovnic, kterou můžeme snadno vyřešit.
+
+\begin{align*}
+    {v_1}_y \left( d_0 {v_0}_x + d_1 {v_1}_x \right)     & = {v_1}_y t_x                                                         \\
+    {v_1}_x \left( d_0 {v_0}_y + d_1 {v_1}_y \right)     & = {v_1}_x t_y                                                         \\
+    \\
+    d_0 {v_0}_x {v_1}_y + d_1 {v_1}_y {v_1}_x            & = {v_1}_y t_x                                                         \\
+    d_0 {v_0}_y {v_1}_x + d_1 {v_1}_y {v_1}_x            & = {v_1}_x t_y                                                         \\
+    \\
+    d_0 {v_0}_x {v_1}_y - d_0 {v_0}_y {v_1}_x            & = {v_1}_y t_x - {v_1}_x t_y                                           \\
+    d_0 \left( {v_0}_x {v_1}_y - {v_0}_y {v_1}_x \right) & = {v_1}_y t_x - {v_1}_x t_y                                           \\
+    d_0                                                  & = \frac{{v_1}_y t_x - {v_1}_x t_y}{{v_0}_x {v_1}_y - {v_0}_y {v_1}_x} \\
+    \\
+    {v_0}_y \left( d_0 {v_0}_x + d_1 {v_1}_x \right)     & = {v_0}_y t_x                                                         \\
+    {v_0}_x \left( d_0 {v_0}_y + d_1 {v_1}_y \right)     & = {v_0}_x t_y                                                         \\
+    \\
+    d_0 {v_0}_x {v_0}_y + d_1 {v_0}_y {v_1}_x            & = {v_0}_y t_x                                                         \\
+    d_0 {v_0}_x {v_0}_y + d_1 {v_0}_x {v_1}_y            & = {v_0}_x t_y                                                         \\
+    \\
+    d_1 {v_0}_y {v_1}_x - d_1 {v_0}_x {v_1}_y            & = {v_0}_y t_x - {v_0}_x t_y                                           \\
+    d_1 \left( {v_0}_y {v_1}_x - {v_0}_x {v_1}_y \right) & = {v_0}_y t_x - {v_0}_x t_y                                           \\
+    d_1                                                  & = \frac{{v_0}_y t_x - {v_0}_x t_y}{{v_0}_y {v_1}_x - {v_0}_x {v_1}_y} \\
+\end{align*}
+
+\end{document}

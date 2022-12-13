@@ -1,0 +1,28 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+
+\usepackage[czech]{babel}
+\usepackage{fvextra}
+\usepackage{csquotes}
+\usepackage{parskip}
+
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{siunitx}
+
+\usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
+
+\title{Nezávislost a soustavy}
+\author{Benjamin Swart}
+
+\pagenumbering{gobble}
+
+\begin{document}
+
+Zapíšeme si rovnici $\sum_{i=1}^{n}{a_i x_i} = 0$ jako soustavu lineárních rovnic. Poté se pokusíme tuto soustavu vyřešit, například zmíněnou Gaussovou eliminační metodou. Tato soustava bude vždy mít jako řešení nulové koeficienty. Pokud je to jediné řešení této soustavy, tak jsou vektory nezávislé.
+
+Pokud chceme najít způsob, jak jeden z vektorů vyjádřit pomocí ostatních, tak musíme najít libovolné jiné řešení řešení. Poté vybereme libovolný vektor $x_j$ kde $a_j \neq 0$ a vyjádříme ho ve tvaru $x_j = \sum_{\substack{i = 1\\i \neq j}}^{n}{\frac{-a_i}{a_j} x_i}$.
+
+\end{document}
