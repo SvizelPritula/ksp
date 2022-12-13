@@ -1,0 +1,31 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+
+\usepackage[czech]{babel}
+\usepackage{fvextra}
+\usepackage{csquotes}
+\usepackage{parskip}
+
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{siunitx}
+
+\usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
+
+\title{Nelineární zobrazení}
+\author{Benjamin Swart}
+
+\pagenumbering{gobble}
+
+\begin{document}
+
+Příkladem nelineárního zobrazení je translace, například $f\left(v\right) = v + \begin{pmatrix}
+        1 \\
+        0
+    \end{pmatrix}$.
+
+Toto zobrazení přesune bod doprava o jednotkovou délku. Toto zobrazení lineární není, jelikož není distributivní, a to dokonce pro žádnou dvojici vektorů. Pokud máme vektory $x$ a $y$, tak bude $f\left(x + y\right) = x + y + \begin{pmatrix} 1 \\ 0 \end{pmatrix}$, zatímco $f\left(x\right) + f\left(y\right) = x + y + \begin{pmatrix} 2 \\ 0 \end{pmatrix}$.
+
+\end{document}
