@@ -1,0 +1,45 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+
+\usepackage[czech]{babel}
+\usepackage{fvextra}
+\usepackage{csquotes}
+\usepackage{parskip}
+\usepackage{expl3}
+
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{gensymb}
+\usepackage{graphicx}
+\graphicspath{{images}}
+
+\usepackage[style=verbose-ibid]{biblatex}
+\addbibresource{refs.bib}
+
+\usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
+
+\title{34-5-3 Jednoznačné cestování}
+\author{Benjamin Swart}
+
+\setcounter{secnumdepth}{1}
+
+\begin{document}
+
+\maketitle
+
+Pro každé dva vrcholy máme dvě podmínky: zaprvé mezi nimi musí vézt právě jedna nejlevnější cesta a zadruhé musí být nejlevnější cesta vždy i nejkratší.
+
+První podmínku můžeme splnit snadno tak, že se postaráme, aby všechny možné cesty měli různé ceny. Všechny hrany ohodnotíme unikátní mocninou dvojky od \(0\) do \(n-1\). Každá cena od \(0\) do \(2^n-1\) pak unikátně určí kombinaci hran, a tedy i cestu.
+
+Postarali jsme se o to, že žádné dvě ceny nejsou stejně drahé. Teď jen musíme zajistit to, aby nejkratší cesta byla vždy nejlevnější.
+
+To zajistíme tak, že ke všem cenám hran přičteme nějaké velmi velké číslo. Tím dosáhneme toho, že při určování nejkratší cesty bude vždy hrát primární roli její délka a až sekundárně její předchozí cena. Minimální číslo, které musíme přičíst, je o jedna víc než součet předchozích cen všech hran. V našem případě se jedná o \(2^n\).
+
+Pokud tedy máme \(n\) hran očíslovaných \(\left\{0, 1, 2, \dots, n - 1\right\}\), tak tedy stačí každé hraně \(i\) přiřadit cenu \(2^n + 2^i\).
+
+Nejvyšší cena cesty tedy bude řádu \(O(2^n)\). Hrany je triviálně možné ohodnotit v \(O(n)\) čase.
+
+\end{document}
