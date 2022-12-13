@@ -1,0 +1,44 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+
+\usepackage[czech]{babel}
+\usepackage{fvextra}
+\usepackage{csquotes}
+\usepackage{parskip}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\graphicspath{{images}}
+
+\usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
+
+\usepackage{mathtools}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+
+\title{34-4-2 Písemka z analýzy}
+\author{Benjamin Swart}
+
+\setcounter{secnumdepth}{0}
+
+\begin{document}
+
+\maketitle
+
+\section{Strategie}
+
+Podíváme se na tipy všech studentů, kteří se ještě nezmýlili, a použijeme odpověď, kterou nám dala většina.\footnote{Na způsobu rozhodování remíz nezáleží.}
+
+\section{Počet chyb}
+
+Nechť \(P\) je množina studentů, kteří se do teď nezmýlili. Na začátku \(P\) obsahuje všech \(n\) studentů. Pokaždé, když náš algoritmus udělá chybu, tak se musela alespoň polovina studentů v \(P\) zmýlit. Velikost \(P\) se tedy s každou chybou zredukuje alespoň o polovinu. Množina \(P\) bude vždy obsahovat alespoň jeden prvek. Zahodit alespoň polovinu množiny s \(n\) prvky lze jen \(\floor{log_2(n)}\)krát.\footnote{Pokud zahazujeme alespoň polovinu množiny s lichým počtem prvků, tak musíme zahodit více než polovinu. Z toho pochází zaokrouhlení dolů.} Náš algoritmus tedy v nejhorším případě udělá \(\floor{log_2(n)}\) chyb.
+
+\section{Důkaz optimálnosti algoritmu}
+
+Na úlohu se můžeme podívat z druhé strany, tj. z pohledu někoho, kdo určuje, jak nám studenti odpoví a jestli se naše předpověď vyplní. Jediná podmínka, kterou tento někdo musí dodržet je ta, že alespoň jeden student musí vždy odpovídat správně. Dokážeme, že nás tento někdo může přinutit udělat v každém z prvních \(\floor{log_2(n)}\) večerů chybu.
+
+Počet způsobů, jak může jeden student za prvních \(\floor{log_2(n)}\) večerů odpovědět, je \(2^{\floor{log_2(n)}}\). Díky tomu, že \(2^{\floor{log_2(n)}} \le n\), můžeme každým z těchto způsobů nechat jednoho studenta odpovědět. Zbylí studenti mohou odpovídat jakkoliv. Jelikož všechny možné časy písemek nějaký student předpoví, tak můžeme jejich časy určit zcela libovolně, a vždy to bude v souladu se zadáním. Písemku pak dáme právě tehdy, když se student ze zadání rozhodne se neučit. Tím jsme schopni ho přinutit po prvních \(\floor{log_2(n)}\) večerů chybovat.
+
+\end{document}
