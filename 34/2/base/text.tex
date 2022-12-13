@@ -1,0 +1,185 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage{amsmath, amsfonts}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+
+\title{34-2-X1 Převod čísel}
+\author{Benjamin Swart}
+
+\begin{document}
+
+\maketitle
+
+\section*{Značení}
+
+Čísla budu uvádět tak, že zapíši každou číslici v desítkové soustavě a spojím je dvojtečkami. Třeba číslo 123456 v stovkové soustavě by bylo:
+
+\begin{equation*}
+    12:34:56
+\end{equation*}
+
+V ukázkách budu převádět z stovkové soustavy do tisícové, jelikož správnost těchto výpočtů se dá snadno opticky kontrolovat.
+
+Budu převádět číslo:
+
+\begin{equation*}
+    01:23:45:67:89:01:23:45
+\end{equation*}
+
+na:
+
+\begin{equation*}
+    123:456:789:012:345
+\end{equation*}
+
+Převáděné číslo pojmenuji \emph{N}.
+
+Složitost násobení dvou \(n\)-místných označím \(M(n)\). Složitost dělení dvou \(n\)-místných označím \(D(n)\).
+
+\section*{Úvod}
+
+Všechny výpočty budeme provádět v soustavě \emph{a}.
+Znamená to dvě věci: Zaprvé budu muset převést \emph{b} do soustavy \emph{a}. Zadruhé budu muset převést jednotlivé číslice výsledného čísla do soustavy b.
+
+Převést \emph{b} do soustavy \emph{a} je snadné. S čísly o této velikosti umíme pracovat v konstantním čase, takže stačí aplikovat algoritmus ze školy. Číslo budeme opakovaně dělit \emph{a} a zapíšeme si zbytky. Ty budou představovat číslice od nejméně významné po nejvýznamější.
+
+Časová složitost tohoto kroku bude \(O(log_a b)\).
+
+Pokud je \(a > b\), dostaneme po převodu číslice zapsané v soustavě \emph{a}, asi takto:
+
+\begin{equation*}
+    1:23
+\end{equation*}
+\begin{equation*}
+    4:56
+\end{equation*}
+\begin{equation*}
+    7:89
+\end{equation*}
+\begin{equation*}
+    12
+\end{equation*}
+\begin{equation*}
+    3:45
+\end{equation*}
+
+Musíme tyto čísla převést na soustavy, ve které náš počítač provádí nativní operace. (Nebo do té, ve které chceme vypsat výsledek.) K tomu můžeme použít obdobný algoritmus. Pro číslice \(d_0\) až \(d_{n-1}\) sečteme \(\{d_0 * b^0; d_1 * b^1; ...; d_{n-1} * b^{n-1}\}\).
+
+Časová složitost tohoto kroku bude \(O(log_b N * log_a b)\).
+
+\section*{Příprava}
+
+Po úvodním převodu \emph{b} do soustavy \emph{a} si připravíme tabulku mocnin \emph{b}. Nezajímají nás ale všechny mocniny, jen mocniny ve tvaru \(b^{2^m}; m \in \mathbb{Z}^0\). Spočítat tuto nekonečnou řadu by trvalo opravdu dlouho, ale naštěstí nám stačí ty prvky, pro které \(b^{2^m} < N\).
+
+Tuto posloupnost spočítáme rekurencí \(b^{2^m} = b^{2^{m-1}} * b^{2^{m-1}}\). Zabere \(O(log log_b N * log_b N)\) místa a půjde spočítat v čase \(O(log log_b N * M(log_b N))\) (za předpokladu že \(M(2n) \ge 2M(n)\), což bohužel bude).
+
+Počet prvků v této sekveci označím \(o\). Jeho hodnota je \(\left\lfloor log_2 log_b N \right\rfloor \). První prvek je \(b^{2^0}\), poslední \(b^{2^{o - 1}}\).
+
+\section*{Samotný převod}
+
+Dalším krokem je převedním \(N\) to soustavy \(b^{2^{o}}\). Jelikož \(b^{2^{o}} > N\), tak je tento krok jednoduchý, jelikož výsledkem je jednociferné číslo a \(N\) už tedy v této soustavě je.
+
+Dalším krokem je převod do soustavy \(b^{2^{o - 1}}\). V této soustavě bude \(N\) dvouciferné číslo. Vydělíme ho tedy \(b^{2^{o - 1}}\). Podíl bude nejvíce významná číslice a zbytek bude nejméně významná číslice.
+
+Po dělení \(1:00:00:00:00:00:00\) dostameme tyto číslice:
+
+\begin{equation*}
+    1:23
+\end{equation*}
+\begin{equation*}
+    45:67:89:01:23:45
+\end{equation*}
+
+Každou z těchto číslic dále převedeme do soustavy \(b^{2^{o - 2}}\).
+
+\begin{equation*}
+    0
+\end{equation*}
+\begin{equation*}
+    1:23
+\end{equation*}
+\begin{equation*}
+    45:67:89
+\end{equation*}
+\begin{equation*}
+    01:23:45
+\end{equation*}
+
+Toto opakujeme, dokud není číslo převedeno do soustavy \(b^{2^{0}} = b\).
+
+\begin{equation*}
+    0
+\end{equation*}
+\begin{equation*}
+    0
+\end{equation*}
+\begin{equation*}
+    0
+\end{equation*}
+\begin{equation*}
+    1:23
+\end{equation*}
+\begin{equation*}
+    4:56
+\end{equation*}
+\begin{equation*}
+    7:89
+\end{equation*}
+\begin{equation*}
+    12
+\end{equation*}
+\begin{equation*}
+    3:45
+\end{equation*}
+
+Pokaždé číslo rozdělíme na dvě s polovičním počtem číslic v soustavě \(b\). Pokud platí \(D(2n) \ge D(n)\), tj. dělící algoritmus beží v lineárním čase nebo pomaleji (což běží), bude v každém dalším kroku sice dvakrát více operací, ale za to budou alespoň dvakrát rychlejší.
+
+Tento krok algoritmu tedy poběží v \(O(log log_b N * D(log_b N))\).
+
+Nakonec provedeme převod popsaný v kapitole \emph{Úvod}.
+
+\section*{Časová složitost}
+
+Časové složitosti kroků prostě sečteme:
+
+\begin{equation*}
+    O(
+    log log_b N * D(log_b N) +
+    log log_b N * M(log_b N) +
+    log_b N * log_a b +
+    log_a b
+    )
+\end{equation*}
+
+Kombinací časových složitostí získáme:
+
+\begin{equation*}
+    O(
+    log log_b N * (D(log_b N) + M(log_b N)) +
+    log_b N * log_a b
+    )
+\end{equation*}
+
+Nyní zbývá jen vybrat vhodný algoritmus na násobení a dělení. Naštěstí má Wikipedie seznam.
+\footnote{\url{https://en.wikipedia.org/wiki/Computational_complexity_of_mathematical_operations\#Arithmetic_functions}}
+Dělění má stejnou časovou složitost jako násobení díky Newtonovu-Raphsonovu algoritmu.
+
+Komplexitu tedy můžeme zjednodušit na:
+\begin{equation*}
+    O(
+    log log_b N * M(log_b N) +
+    log_b N * log_a b
+    )
+\end{equation*}
+
+V roce 2019 objevil Harvey a van der Hoeven algoritmus pro násobení binárních čísel v \(O(n * log(n))\).
+\footnote{\url{https://hal.archives-ouvertes.fr/hal-02070778}}
+Bohužel je tak komplikovaný, že nemám znalosti potřebné k určení toho, jak se složitost odvíjí od základu soustavy.
+
+Je důležité, abysme po aplikaci zvoleného algoritmu na dělení ze začátku čísla odstranili přebytečné nuly.
+
+Paměťová složitost bude \(O(log log_b N * log_b N)\), pro tabulku z přípravy.
+
+\end{document}
