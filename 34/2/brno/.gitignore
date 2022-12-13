@@ -1,0 +1,12 @@
+bin/
+obj/
+output/
+image/
+vis/
+log/
+log-archive/
+.vscode/
+
+token.txt
+*.o
+*.so
