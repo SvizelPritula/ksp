@@ -1,0 +1,225 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[a4paper,margin=2cm]{geometry}
+
+\usepackage{parskip}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{minted}
+
+\usepackage[unicode]{hyperref}
+
+\setcounter{secnumdepth}{0}
+
+\title{34-5-4 - Dělení ve velkém}
+\author{Benjamin Swart}
+
+\begin{document}
+\maketitle
+
+\section{Úvod}
+
+Pro přehlednost zdrojový kód z ukázky zabalím do funkce. \texttt{array} je vstupní pole, \texttt{size} je délka tohoto pole a \texttt{max} je horní hranice hodnot v tomto poli (v zadání \(10^6\)).
+
+\begin{minted}{c}
+int sum_quotients(int *array, int size, int max) {
+    int sum = 0;
+
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            sum += array[i] / array[j];
+        }
+    }
+
+    return sum;
+}
+\end{minted}
+
+Snažíme se pro každou dvojici čísel v seznamu vypočítat jejich celočíselný podíl a tyto podíly sečíst.
+
+Celočíselné dělení budu značit operátorem \(\div\).
+
+\section{Jiný způsob počítání}
+
+Dejme tomu, že počítáme celočíselný podíl nějakého čísla \(x\) a 3. Podíl bude 0, pokud \(x \in \left\{0, 1, 2\right\}\), 1, pokud \(x \in \left\{3, 4, 5\right\}\), 2, pokud \(x \in \left\{6, 7, 8\right\}\) a podobně.
+
+Formálně tedy platí, že:
+
+\begin{equation*}
+    x \div y = q \equiv x \in \left\{qy, qy+1, qy+2, \dots, qy+y-1\right\}
+\end{equation*}
+
+Této vlastnosti můžeme využít. Po každého dělitele \(y\) projdeme všechny možné podíly \(q\) a spočítáme čísla \(x\), kde \(x \ge qy \land x \le qy + y - 1\), a tedy \(x \div y = q\). Podíl vynásobíme jeho počtem výskytů a tento součin sečteme napříč všemi děliteli a podíly. Vyjde nám součet všech podílů dvojic, který po nás zadání chce.
+
+Tento algoritmus můžeme implementovat takto:
+
+\begin{minted}{c}
+int sum_quotients(int *array, int size, int max) {
+    int sum = 0;
+
+    for (int i = 0; i < size; i++) {
+        int divisor = array[i];
+
+        for (int quotient = 0; quotient * divisor <= max; quotient++) {
+            int occurrences = 0;
+
+            int start = quotient * divisor;
+            int end = start + divisor - 1;
+        
+            for (int j = 0; j < size; j++) {
+                if (array[j] >= start && array[j] <= end)
+                    occurrences++;
+            }
+
+            sum += occurrences * quotient;
+        }
+    }
+
+    return sum;
+}
+\end{minted}
+
+\section{Počítáme rychleji}
+
+Algoritmus z minulé sekce tráví hodně času počítáním čísel v seznamu. Tuto část můžeme snadno zrychlit.
+
+Ze vstupního seznamu vytvoříme histogram, tj. pro každé číslo předem spočítáme, kolikrát se v seznamu vyskytuje.
+
+Histogram můžeme v \(O\left(n\right)\) spočítat tímto jednoduchým algoritmem:
+
+\begin{minted}{c}
+void compute_histogram(int *dest, int *array, int size, int max) {
+    for (int i = 0; i <= max; i++) {
+        dest[i] = 0;
+    }
+
+    for (int i = 0; i < size; i++) {
+        dest[array[i]]++;
+    }
+}
+\end{minted}
+
+Tuto funkci využijeme k zrychlení algoritmu z minulé sekce:
+
+\begin{minted}{c}
+int sum_quotients(int *array, int size, int max) {
+    int histogram[max + 1];
+    compute_histogram(histogram, array, size, max);
+    
+    int sum = 0;
+
+    for (int i = 0; i < size; i++) {
+        int divisor = array[i];
+
+        for (int quotient = 0; quotient * divisor <= max; quotient++) {
+            int occurrences = 0;
+
+            int start = quotient * divisor;
+            int end = start + divisor - 1;
+
+            if (end > max) end = max;
+        
+            for (int j = start; j <= end; j++) {
+                occurrences += histogram[j];
+            }
+
+            sum += occurrences * quotient;
+        }
+    }
+
+    return sum;
+}
+\end{minted}
+
+\section{Zrychlujeme znovu}
+
+Sčítání podposloupností pole, které je v našem algoritmu prováděno na histogramu, je možné urychlit prefixovými součty. Ty snadno vypočítáme v \(O\left(n\right)\) touto funkcí:
+
+\begin{minted}{c}
+void compute_prefix_sums(int *dest, int *array, int size) {
+    int sum = 0;
+
+    for (int i = 0; i < size; i++) {
+        sum += array[i];
+        dest[i] = sum;
+    }
+}
+\end{minted}
+
+Tyto prefixové součty pak můžeme využít v našem alogritmu:
+
+\begin{minted}{c}
+int sum_quotients(int *array, int size, int max) {
+    int histogram[max + 1];
+    int histogram_prefix[max + 1];
+
+    compute_histogram(histogram, array, size, max);
+    compute_prefix_sums(histogram_prefix, histogram, max + 1);
+    
+    int sum = 0;
+
+    for (int i = 0; i < size; i++) {
+        int divisor = array[i];
+
+        for (int quotient = 0; quotient * divisor <= max; quotient++) {
+            int start = quotient * divisor;
+            int end = start + divisor - 1;
+
+            if (end > max) end = max;
+
+            int occurrences = histogram_prefix[end] - histogram_prefix[start];
+            occurrences += histogram[start];
+
+            sum += occurrences * quotient;
+        }
+    }
+
+    return sum;
+}
+\end{minted}
+
+\section{Zrychlujeme naposledy}
+
+Tento algoritmus je docela rychlý, ale narazí na problém, pokud budou všechna čísla v seznamu velmi nízká. Nakonec zrychlíme náš algoritmus ještě tak, že nebudeme procházet identické dělitele vícekrát. Místo toho, abychom procházeli původní seznam, tak budeme procházet histogram a násobit výsledky jednotlivých dělitelů jejich počtem. Hotový algoritmus tedy bude vypadat takto:
+
+\begin{minted}{c}
+int sum_quotients(int *array, int size, int max) {
+    int histogram[max + 1];
+    int histogram_prefix[max + 1];
+
+    compute_histogram(histogram, array, size, max);
+    compute_prefix_sums(histogram_prefix, histogram, max + 1);
+    
+    int sum = 0;
+
+    for (int divisor = 1; divisor <= max; divisor++) {
+        int divisor_count = histogram[divisor];
+
+        for (int quotient = 0; quotient * divisor <= max; quotient++) {
+            int start = quotient * divisor;
+            int end = start + divisor - 1;
+
+            if (end > max) end = max;
+
+            int occurrences = histogram_prefix[end] - histogram_prefix[start];
+            occurrences += histogram[start];
+
+            sum += occurrences * quotient * divisor_count;
+        }
+    }
+
+    return sum;
+}
+\end{minted}
+
+\section{Asymptotická analýza}
+
+Paměťová složitost tohoto algoritmu je triviálně \(O\left(n\right)\).
+
+Pro spočítání součtu pro jednoho dělitele \(i\) potřebuje náš algoritmus projít \(O\left(\frac{n}{i}\right)\) intervalů. Protože náš algoritmus prochází všechny dělitele od 1 do \(n\), bude časová složitost algoritmu \(O\left(\sum_{i=1}^{n} \frac{n}{i}\right)\), neboli \(O\left(n \sum_{i=1}^{n} i^{-1}\right)\). \(\sum_{i=1}^{n} i^{-1}\) je prvek \(H_n\) z harmonické řady, o které je známo, že roste logaritmicky. Časová asymptotická složitost tohoto algoritmu je tedy \(O\left(n \log n\right)\).
+
+V případě, že by maximální hodnota v poli měla vyšší řád, než je délka pole, by bylo možné nahradit histogram seřazeným polem dvojic hodnot a počtů. Na tomto poli by se využilo binárního vyhledávání. Časová složitost by pak byla \(O\left(n \log^2 n\right)\).
+
+\end{document}
