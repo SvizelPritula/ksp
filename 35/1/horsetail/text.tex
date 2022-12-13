@@ -1,0 +1,111 @@
+\documentclass{article}
+
+\usepackage[unicode, hidelinks, pdfusetitle]{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage[a4paper, margin=2cm]{geometry}
+
+\usepackage{parskip}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{subcaption}
+
+\setcounter{secnumdepth}{0}
+
+\title{35-1-1 Hroší přeslička}
+\author{Benjamin Swart}
+
+\begin{document}
+\maketitle
+
+\section{Definice}
+
+Strom, který má vrchol $v$ jako svůj kořen, tj. sjednocení potomků $v$ a $\left\{v\right\}$, budu nazývat stromem vrcholu $v$.
+
+\section{Možné cesty}
+
+Uvažujme cestu s konci $x$ a $y$ a její nejvyšší bod $v$.
+
+Na základě jejich vzájemné polohy mohou nastat dvě situace:\footnote{V závislosti na přesné definici cesty může nastat ještě situace, kdy $x = y = v$. Zadání však cesty nulové délky zakazuje. Jejich započtení by vliv na výsledek nemělo, protože každým vrcholem prochází právě jedna taková cesta.}
+
+\begin{enumerate}
+    \item $x$ a $y$ leží v stromech různých dětí $v$
+    \item $x = v$ a $y$ je potomkem $v$, nebo naopak
+\end{enumerate}
+
+\begin{figure}[h]
+    \centering
+
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \begin{tikzpicture}[
+                main/.style = {draw, circle, minimum height=2.5em, minimum width=2.5em, node distance=4em},
+                path/.style = {line width=3pt}
+            ]
+            \node[main] (n) {$v$};
+            \node[main] (p) [above of=n] {};
+            \node[main] (l) [below left of=n] {};
+            \node[main] (r) [below right of=n] {$y$};
+            \node[main] (ll) [below left of=l] {};
+            \node[main] (lr) [below right of=l] {$x$};
+            \node[main] (rr) [below right of=r] {};
+
+            \draw (p) -- (n);
+            \draw[path] (n) -- (l);
+            \draw[path] (n) -- (r);
+            \draw (l) -- (ll);
+            \draw[path] (l) -- (lr);
+            \draw (r) -- (rr);
+        \end{tikzpicture}
+    \end{subfigure}
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \begin{tikzpicture}[
+                main/.style = {draw, circle, minimum height=2.5em, minimum width=2.5em, node distance=4em},
+                path/.style = {line width=3pt}
+            ]
+            \node[main] (n) {$v{=}x$};
+            \node[main] (p) [above of=n] {};
+            \node[main] (l) [below left of=n] {};
+            \node[main] (r) [below right of=n] {};
+            \node[main] (ll) [below left of=l] {};
+            \node[main] (lr) [below right of=l] {};
+            \node[main] (rr) [below right of=r] {$y$};
+
+            \draw (p) -- (n);
+            \draw (n) -- (l);
+            \draw[path] (n) -- (r);
+            \draw (l) -- (ll);
+            \draw (l) -- (lr);
+            \draw[path] (r) -- (rr);
+        \end{tikzpicture}
+    \end{subfigure}
+
+    \caption{Vzájemné polohy cesty a nejvyššího bodu}
+\end{figure}
+
+\section{Počítání velikostí stromů}
+
+Nejprve pro každý vrchol spočítáme velikost jeho stromu, tj. počet potomků $+1$. To můžeme snadno spočítat rekurzivním algoritmem.
+
+Začneme s nejvyšším vrcholem. Poté pro každé jeho dítě rekurzivně spočítáme velikost jeho stromu, tyto velikosti sečteme a přičteme jedna. Nakonec tuto velikost uložíme, abychom ji nemuseli počítat znovu.
+
+\section{Počítání cest}
+
+Nyní pro každý vrchol spočítáme cesty, pro které je nejvyšším bodem. Vrchol, jehož cesty počítáme, označíme $v$, jeho $n$ dětí $d_1$ až $d_n$ a velikosti jejich stromů $s_1$ až $s_n$. $x$ a $y$ budou konce cesty.
+
+Začněme s cestami typu jedna ($v \notin \left\{x, y\right\}$). Uvažujme všechny cesty, jejichž konec $x$ leží ve stromu dítěte $d_a$. Ze základní kombinatoriky víme, že počet těchto cest je počet možných konců $x$ krát počet možných konců $y$. Konec $y$ může ležet ve stromě jakéhokoliv jiného dítěte, tedy počet těchto cest bude $s_a * \left(\left(\sum_{i=1}^{n} s_i\right) - s_a\right)$. $\sum_{i=1}^{n} s_i$, neboli počet potomků $v$, si spočítáme předem a pojmenujeme $S$. Celkový počet cest typu jedna poté můžeme spočítat jako $\sum_{a=1}^{n} s_a * \left(S - s_a\right)$.
+
+Počítání cest typu dva je ještě jednodušší. Počet cest s $x = v$ je jednodušše počet možných $y$, což je $S$, neboli počet potomků $v$. Počet cest s $y = v$ je stejný.\footnote{Cesty, jak naznačuje zadání, považuji za orientované, a tedy že cesta z $a$ do $b$ a cesta z $b$ do $a$ jsou různé cesty. Na výsledku to nic nezmění.} Počet cest typu dva je tedy $2S$.
+
+Počet cest mající vrchol $v$ jako nejvyšší bod je tedy $2S + \sum_{a=1}^{n} s_a * \left(S - s_a\right)$, kde $S = \sum_{i=1}^{n} s_i$. Jak $S$ tak počet cest snadno spočítáme v $O(n)$.
+
+\section{Hledání přesličky}
+
+Po označení všech vrcholů počtem relevantních cest je nalezení toho s nejvyšším počtem triviální.
+
+Načíst vstup a postavit z něj strom zvládneme snadno v lineárním čase. Poté provedeme dva průchody stromem, kde pro každý vrchol provedeme výpočet v lineárním čase ku počtu jeho dětí. Každý vrchol může být dítětem nevýše jednou, takže celý průchod stromem zabere také lineární čas. Nakonec najít největší číslo také zvládneme v lineárním čase.
+
+Časová složitost tohoto algoritmu bude tedy $O(n)$. Paměťová složitost bude také $O(n)$, jelikož musíme udržet v paměti celý strom a pár hodnot pro každý vrchol.
+
+\end{document}
