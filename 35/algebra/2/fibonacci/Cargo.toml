@@ -1,0 +1,13 @@
+[package]
+name = "fibonacci"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+
+[[bin]]
+name = "fibonacci"
+
+[dependencies]
+nalgebra = "0.31.4"
+num = { version = "0.4.0", features = ["num-bigint"] }
