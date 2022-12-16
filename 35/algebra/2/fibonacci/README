@@ -1,0 +1,5 @@
+Tento program spočítá n-té číslo Fibonacciho posloupnosti.
+
+K tomu využívá matici (0, 1; 1, 1). Pokud touto matici vynásobíme vektorem obsahujícím dvě po sobě jdoucí čísla Fibonacciho posloupnosti, vznikne nám vektor obsahující následující číslo posloupnosti, dohromady s větším ze vstupních čísel.
+
+Tento program pomocí algoritmu binárního umocňování spočítá n-tou mocninu této matice a poté ji vynásobí vektorem (0, 1).
