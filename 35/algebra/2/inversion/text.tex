@@ -1,0 +1,165 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+
+\usepackage[czech]{babel}
+\usepackage{fvextra}
+\usepackage{csquotes}
+\usepackage{parskip}
+
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{siunitx}
+
+\usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
+
+\title{Inverzní matice}
+\author{Benjamin Swart}
+
+\pagenumbering{gobble}
+
+\begin{document}
+
+Máme jednoduchou matici $C$, kterou chceme invertovat:
+
+\begin{equation*}
+    \begin{pmatrix}
+        c & -c \\
+        c & c
+    \end{pmatrix}
+\end{equation*}
+
+Rovnici $C v = v^\prime$ si můžeme zapsat jako soustavu rovnic.
+
+\begin{align*}
+    \begin{pmatrix}
+        c & -c \\
+        c & c
+    \end{pmatrix}
+    \begin{pmatrix}
+        v_1 \\
+        v_2
+    \end{pmatrix}
+                  & =
+    \begin{pmatrix}
+        v^\prime_1 \\
+        v^\prime_2
+    \end{pmatrix}               \\
+    \begin{pmatrix}
+        c v_1 - c v_2 \\
+        c v_1 + c v_2
+    \end{pmatrix}
+                  & =
+    \begin{pmatrix}
+        v^\prime_1 \\
+        v^\prime_2
+    \end{pmatrix}               \\
+    \\
+    c v_1 - c v_2 & = v^\prime_1 \\
+    c v_1 + c v_2 & = v^\prime_2
+\end{align*}
+
+Z této soustavy můžeme vytknout $v_1$ a $v_2$.
+
+\begin{align*}
+    c v_1 - c v_2   & = v^\prime_1                        \\
+    c v_1 + c v_2   & = v^\prime_2                        \\
+    \\
+    2 c v_1         & = v^\prime_1 + v^\prime_2           \\
+    v_1             & =
+    \tfrac{1}{2} c^{-1} v^\prime_1 +
+    \tfrac{1}{2} c^{-1} v^\prime_2                        \\
+    \\
+    c \left(
+    \tfrac{1}{2} c^{-1} v^\prime_1 +
+    \tfrac{1}{2} c^{-1} v^\prime_2
+    \right) + c v_2 & = v^\prime_2                        \\
+    \tfrac{1}{2} v^\prime_1 + \tfrac{1}{2} v^\prime_2
+    + c v_2         & = v^\prime_2                        \\
+    c v_2           & = v^\prime_2 -
+    \tfrac{1}{2} v^\prime_1 - \tfrac{1}{2} v^\prime_2     \\
+    c v_2           & = \tfrac{1}{2} c^{-1} v^\prime_2 -
+    \tfrac{1}{2} v^\prime_1                               \\
+    v_2             & = -\tfrac{1}{2} c^{-1} v^\prime_1 +
+    \tfrac{1}{2} c^{-1} v^\prime_2                        \\
+    \\
+    \begin{pmatrix}
+        \tfrac{1}{2} c^{-1} v^\prime_1 +
+        \tfrac{1}{2} c^{-1} v^\prime_2 \\
+        - \tfrac{1}{2} c^{-1} v^\prime_1 +
+        \tfrac{1}{2} c^{-1} v^\prime_2
+    \end{pmatrix}
+                    & =
+    \begin{pmatrix}
+        v_1 \\
+        v_2
+    \end{pmatrix}                                        \\
+\end{align*}
+
+Tento výraz můžeme převést do podoby násobení matice.
+
+\begin{align*}
+    \begin{pmatrix}
+        \tfrac{1}{2} c^{-1}   & \tfrac{1}{2} c^{-1} \\
+        - \tfrac{1}{2} c^{-1} & \tfrac{1}{2} c^{-1}
+    \end{pmatrix}
+    \begin{pmatrix}
+        v^\prime_1 \\
+        v^\prime_2
+    \end{pmatrix}
+     & =
+    \begin{pmatrix}
+        v_1 \\
+        v_2
+    \end{pmatrix}
+\end{align*}
+
+Tím získáme inverzní matici $C^{-1}$:
+
+\begin{equation*}
+    \begin{pmatrix}
+        \tfrac{1}{2} c^{-1}   & \tfrac{1}{2} c^{-1} \\
+        - \tfrac{1}{2} c^{-1} & \tfrac{1}{2} c^{-1}
+    \end{pmatrix}
+\end{equation*}
+
+Můžeme ověřit, že $C C^{-1} = E$.
+
+\begin{align*}
+    \begin{pmatrix}
+        c & -c \\
+        c & c
+    \end{pmatrix}
+    \begin{pmatrix}
+        \tfrac{1}{2} c^{-1}   & \tfrac{1}{2} c^{-1} \\
+        - \tfrac{1}{2} c^{-1} & \tfrac{1}{2} c^{-1}
+    \end{pmatrix}
+     & =
+    \begin{pmatrix}
+        c \left(\tfrac{1}{2} c^{-1}\right)
+        - c \left(- \tfrac{1}{2} c^{-1}\right) &
+        c \left(\tfrac{1}{2} c^{-1}\right)
+        - c \left(\tfrac{1}{2} c^{-1}\right)
+        \\
+        c \left(\tfrac{1}{2} c^{-1}\right)
+        + c \left(-\tfrac{1}{2} c^{-1}\right)  &
+        c \left(\tfrac{1}{2} c^{-1}\right)
+        + c \left(\tfrac{1}{2} c^{-1}\right)
+    \end{pmatrix} \\
+     & =
+    \begin{pmatrix}
+        \tfrac{1}{2} + \tfrac{1}{2} &
+        \tfrac{1}{2} - \tfrac{1}{2}
+        \\
+        \tfrac{1}{2} - \tfrac{1}{2} &
+        \tfrac{1}{2} + \tfrac{1}{2}
+    \end{pmatrix}            \\
+     & =
+    \begin{pmatrix}
+        1 & 0 \\
+        0 & 1
+    \end{pmatrix}
+\end{align*}
+
+\end{document}
