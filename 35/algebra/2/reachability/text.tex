@@ -1,0 +1,34 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+
+\usepackage[czech]{babel}
+\usepackage{fvextra}
+\usepackage{csquotes}
+\usepackage{parskip}
+
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{siunitx}
+
+\usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
+
+\title{Matice dosažitelnosti}
+\author{Benjamin Swart}
+
+\pagenumbering{gobble}
+
+\begin{document}
+
+Můžeme spočítat $A^n$. Tím pro každou dvojici vrcholů $i$ a $j$ spočítáme počet cest mezi $i$ a $j$ o délce $n$, což je podobné tomu, co chceme.
+
+To, že mezi nějakými vrcholy neexistuje cesta o délce $n$ ještě neznamená, že mezi nimi neexistuje žádná cesta. Minimální vzdálenost mezi vrcholy v grafu s $n$ vrcholy logicky nemůže být větší než $n$, ale stále může existovat kratší cesta. To vyřešíme tak, že ke každému vrcholu přidáme smyčku, čímž vytvoříme matici $A^\prime$. Pokud pak existuje mezi vrcholy $i$ a $j$ cesta o délce $m < n$, tak bude určitě existovat i cesta o délce $n$, která nejprve povede z $i$ do $j$ a pak $n - m$-krát projde smyčku u vrcholu $j$.
+
+Matici $A^{\prime n}$ pojmenujeme $D$. Hodnota $D_{i j}$ bude nenulová právě tehdy, když bude $j$ dosažitelné z $i$.
+
+Problém je, že hodnoty v této matici budou velmi velké a nebudou mít žádný praktický význam. Budeme tedy používat Booleovu algebru. Místo násobení budeme používat konjunkci a místo sčítání disjunkci. Odčítat nebo dělit naštěstí nemusíme.
+
+K mocnění můžeme použít algoritmus binárního umocňování, díky čemuž tento algoritmus za použití přímočarého algoritmu pro násobení matic poběží v $\mathcal{O} \left(n^3 \log{n}\right)$.
+
+\end{document}
