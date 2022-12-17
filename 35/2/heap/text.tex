@@ -1,0 +1,191 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[czech]{babel}
+\usepackage{fvextra}
+\usepackage{csquotes}
+\usepackage{parskip}
+
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{tikz}
+
+\usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
+
+\title{35-2-2 Zápisky z přednášky}
+\author{Benjamin Swart}
+
+\pagenumbering{gobble}
+
+\begin{document}
+\maketitle
+
+$k$-té nejmenší číslo v haldě $H$ bude nutně dítě jednoho z prvních $k-1$ nejmenších čísel. Stačí tedy najít $k-1$ nejmenších čísel a projít jejich děti. $k$ nejmenších čísel tedy můžeme najít dynamickým programováním. Z haldy $H$ budeme postupně škrtat\footnote{Algoritmus na odebírání z haldy pochopitelně používat nebudeme. Škrtání bude pouze pomyslné.} čísla a udržovat si kolekci neprozkoumaných dětí.
+
+Za tím účelem si vytvoříme haldu $S$, do které přidáme odkaz na kořen haldy $H$. Z $S$ budeme postupně odebereme $k$ čísel. Pokaždé, když z $S$ odebereme nějaké číslo, tak do ní přidáme oba potomky daného čísla z $H$. $k$-té odebrané číslo vrátíme.
+
+Takto může vypadat průběh algoritmu pro $k=5$:
+
+\begin{center}
+    \begin{tikzpicture}
+        \tikzstyle{level 1}=[sibling distance=20mm]
+        \tikzstyle{level 2}=[sibling distance=10mm]
+        \tikzstyle{every node}=[circle, draw]
+
+        \node[ultra thick]{$1$}
+        child{
+                node{$4$}
+                child{
+                        node{$8$}
+                    }
+                child{
+                        node{$7$}
+                    }
+            }
+        child{
+                node{$2$}
+                child{
+                        node{$3$}
+                    }
+                child{
+                        node{$5$}
+                    }
+            };
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \tikzstyle{level 1}=[sibling distance=20mm]
+        \tikzstyle{level 2}=[sibling distance=10mm]
+        \tikzstyle{every node}=[circle, draw]
+
+        \node[thick, fill=lightgray]{$1$}
+        child{
+                node[ultra thick]{$4$}
+                child{
+                        node{$8$}
+                    }
+                child{
+                        node{$7$}
+                    }
+            }
+        child{
+                node[ultra thick]{$2$}
+                child{
+                        node{$3$}
+                    }
+                child{
+                        node{$5$}
+                    }
+            };
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \tikzstyle{level 1}=[sibling distance=20mm]
+        \tikzstyle{level 2}=[sibling distance=10mm]
+        \tikzstyle{every node}=[circle, draw]
+
+        \node[thick, fill=lightgray]{$1$}
+        child{
+                node[ultra thick]{$4$}
+                child{
+                        node{$8$}
+                    }
+                child{
+                        node{$7$}
+                    }
+            }
+        child{
+                node[thick, fill=lightgray]{$2$}
+                child{
+                        node[ultra thick]{$3$}
+                    }
+                child{
+                        node[ultra thick]{$5$}
+                    }
+            };
+    \end{tikzpicture}
+
+    \begin{tikzpicture}
+        \tikzstyle{level 1}=[sibling distance=20mm]
+        \tikzstyle{level 2}=[sibling distance=10mm]
+        \tikzstyle{every node}=[circle, draw]
+
+        \node[thick, fill=lightgray]{$1$}
+        child{
+                node[ultra thick]{$4$}
+                child{
+                        node{$8$}
+                    }
+                child{
+                        node{$7$}
+                    }
+            }
+        child{
+                node[thick, fill=lightgray]{$2$}
+                child{
+                        node[thick, fill=lightgray]{$3$}
+                    }
+                child{
+                        node[ultra thick]{$5$}
+                    }
+            };
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \tikzstyle{level 1}=[sibling distance=20mm]
+        \tikzstyle{level 2}=[sibling distance=10mm]
+        \tikzstyle{every node}=[circle, draw]
+
+        \node[thick, fill=lightgray]{$1$}
+        child{
+                node[thick, fill=lightgray]{$4$}
+                child{
+                        node[ultra thick]{$8$}
+                    }
+                child{
+                        node[ultra thick]{$7$}
+                    }
+            }
+        child{
+                node[thick, fill=lightgray]{$2$}
+                child{
+                        node[thick, fill=lightgray]{$3$}
+                    }
+                child{
+                        node[ultra thick]{$5$}
+                    }
+            };
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \tikzstyle{level 1}=[sibling distance=20mm]
+        \tikzstyle{level 2}=[sibling distance=10mm]
+        \tikzstyle{every node}=[circle, draw]
+
+        \node[thick, fill=lightgray]{$1$}
+        child{
+                node[thick, fill=lightgray]{$4$}
+                child{
+                        node[ultra thick]{$8$}
+                    }
+                child{
+                        node[ultra thick]{$7$}
+                    }
+            }
+        child{
+                node[thick, fill=lightgray]{$2$}
+                child{
+                        node[thick, fill=lightgray]{$3$}
+                    }
+                child{
+                        node[thick, fill=lightgray]{$5$}
+                    }
+            };
+    \end{tikzpicture}
+\end{center}
+
+Vrcholy v $S$ jsou označeny tučnou čarou, vrcholy co byly z $S$ odebrány jsou označeny šedě.
+
+Časová složitost tohoto algoritmu je $\mathcal{O}\left(l \log{k}\right)$. Kromě paměti potřebné pro uložení $H$ potřebuje $\mathcal{O}\left(k\right)$ další paměti.
+
+\end{document}
