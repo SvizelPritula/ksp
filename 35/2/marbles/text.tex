@@ -1,0 +1,115 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[czech]{babel}
+\usepackage{fvextra}
+\usepackage{csquotes}
+\usepackage{parskip}
+
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage[svgnames]{xcolor}
+\usepackage{tikz}
+
+\usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
+
+\newcommand{\brackets}[4]{{\color{#1}#2}#4{\color{#1}#3}}
+\newcommand{\bred}[1]{\brackets{Maroon}{(}{)}{#1}}
+\newcommand{\bgreen}[1]{\brackets{DarkGreen}{<}{>}{#1}}
+\newcommand{\bblue}[1]{\brackets{MidnightBlue}{[}{]}{#1}}
+
+\newcommand{\bredl}{{\color{Maroon}(}}
+\newcommand{\bredr}{{\color{Maroon})}}
+
+\newcommand{\mred}{\textcolor{Maroon}{R}}
+\newcommand{\mgreen}{\textcolor{DarkGreen}{G}}
+\newcommand{\mblue}{\textcolor{MidnightBlue}{B}}
+
+\title{35-2-4 Kamínky}
+\author{Benjamin Swart}
+
+\pagenumbering{gobble}
+
+\begin{document}
+\maketitle
+
+\section{Závorky}
+\label{section:parens}
+
+Výherní strategii pro tuto hru můžeme zapsat pomocí závorek. Každou dvojici kamínků nějaké barvy, kterou máme sebrat v rámci jednoho tahu, zapíšeme jako pár závorek dané barvy. Pro přehlednost přidělím barvám i různé tvary závorek. Například jedno z řešení řady \texttt{\mred\mblue\mblue\mgreen\mgreen\mgreen\mgreen\mred\mred\mgreen\mgreen\mred} je \texttt{\bred{\bblue{}\bgreen{\bgreen{}}}\bred{\bgreen{}}}. Takto zapsané řešení můžeme snadno zahrát, a to tak, že pro sebrání závorky nejprve sebereme všechny závorky v ní, a poté sebereme vnější závorku.
+
+\section{Optimální hra}
+
+V této hře není možné hrát suboptimálně. Každou hru buď nelze vyhrát, nebo nelze prohrát.
+
+Dokážeme to sporem. Předpokládejme, že existuje nějaká řada kamínků, výherní strategie pro tuto řadu a platný tah, po kterém zbude neřešitelná řada. Výherní strategii můžeme zapsat pomocí závorek, jak je popsáno v sekci \ref{section:parens}. Náš tah z popisu strategie odebírá dvě sousedící závorky stejné barvy. Mohou nastat čtyři situace:
+
+\subsection[Tah odebírá ()]{Tah odebírá \texttt{\bred{}}}
+
+Tento tah odpovídá strategii, takže po jeho zahrání určitě můžeme stále vyhrát.
+
+\subsection[Tah odebírá )(]{Tah odebírá \texttt{\bredr\bredl}}
+
+Naši řadu kamínků můžeme zapsat takto:
+
+\begin{center}
+    \texttt{{A}\bredl{B}\underline{\bredr\bredl}{C}\bredr{D}}
+\end{center}
+
+Odebíráme závorky jsou podtržené, písmena označují řešitelné podsekvence. Po odebrání závorek nám zbude takováto řada:
+
+\begin{center}
+    \texttt{{A}\bredl{B}{C}\bredr{D}}
+\end{center}
+
+Tato řada je zjevně také řešitelná.
+
+\subsection[Tah odebírá ((]{Tah odebírá \texttt{\bredl\bredl}}
+
+Naši řadu kamínků můžeme zapsat takto:
+
+\begin{center}
+    \texttt{{A}\underline{\bredl\bredl}{B}\bredr{C}\bredr{D}}
+\end{center}
+
+Po odebrání nám zbude \texttt{{A}{B}\bredr{C}\bredr{D}}. První závorku otočíme a dostaneme tuto řadu:
+
+\begin{center}
+    \texttt{{A}{B}\bredl{C}\bredr{D}}
+\end{center}
+
+Tato řada je také zjevně řešitelná.
+
+\subsection[Tah odebírá ))]{Tah odebírá \texttt{\bredr\bredr}}
+
+Máme tuto řadu:
+
+\begin{center}
+    \texttt{{A}\bredl{B}\bredl{C}\underline{\bredr\bredr}{D}}
+\end{center}
+
+Tu obdobně jako \texttt{\bredl\bredl} vyřešíme takto:
+
+\begin{center}
+    \texttt{{A}\bredl{B}\bredr{C}{D}}
+\end{center}
+
+Ať tedy zahrajeme jakýkoliv tah, tak jsme schopni upravit naši strategii, abychom vyhráli.
+
+\section{Simulace}
+
+Stačí tedy dělat náhodné tahy, dokud nedojdou. Pokud tím odstraníme všechny kamínky, tak jsme vyhráli. Pokud nějaké zbudou, tak vyhrát možné není. Stačí tedy hru efektivně simulovat.
+
+Barevné kamínky si uložíme do spojového seznamu. Na začátku ho projdeme a najdeme v něm všechny kamínky, které jsou následovány kamínkem stejné barvy. Odkazy na ně dáme do fronty. Tato fronta bude obsahovat všechny aktuálně možné tahy.
+
+Vždy z fronty jeden tah odebereme a zahrajeme ho tak, že ze seznamu odstraníme daný kamínek dohromady s kamínkem po něm následujícím. Poté zkontrolujeme, jestli jsme nespojili dva kamínky stejné barvy. Pokud ano, tak první z nich přidáme do fronty.
+
+Může se stát, že zahráním tahu nějakou dvojici narušíme, a tedy ve frontě skončí neplatný tah. Musíme si tedy dát pozor, abychom neplatné tahy ignorovali a nehráli. Každopádně vždy ve frontě budou všechny platné tahy.
+
+Do fronty na začátku vložíme nejvýše $n - 1$ prvků. Další prvek do ní vložíme jen tehdy, když zahrajeme platný tah, a to pro každý tak nejvýše jeden. Tahů za hru zahrajeme nejvýše $\frac{n}{2}$. Do fronty tedy celkem vložíme $\mathcal{O}\left(n\right)$ prvků, a stejně jich vyndáme. Asymptotická časová i paměťová složitost tohoto algoritmu je tedy $\mathcal{O}\left(n\right)$.
+
+\end{document}
