@@ -5,7 +5,7 @@ use num::BigInt;
 
 fn main() -> ExitCode {
     let Some(n) = args().nth(1) else {
-        let name = args().nth(0).unwrap_or_else(|| String::from("fibonacci"));
+        let name = args().next().unwrap_or_else(|| String::from("fibonacci"));
 
         eprintln!("Usage: {name} [n]");
         return ExitCode::FAILURE;
