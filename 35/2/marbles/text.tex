@@ -32,15 +32,13 @@
 \title{35-2-4 Kamínky}
 \author{Benjamin Swart}
 
-\pagenumbering{gobble}
-
 \begin{document}
 \maketitle
 
 \section{Závorky}
 \label{section:parens}
 
-Výherní strategii pro tuto hru můžeme zapsat pomocí závorek. Každou dvojici kamínků nějaké barvy, kterou máme sebrat v rámci jednoho tahu, zapíšeme jako pár závorek dané barvy. Pro přehlednost přidělím barvám i různé tvary závorek. Například jedno z řešení řady \texttt{\mred\mblue\mblue\mgreen\mgreen\mgreen\mgreen\mred\mred\mgreen\mgreen\mred} je \texttt{\bred{\bblue{}\bgreen{\bgreen{}}}\bred{\bgreen{}}}. Takto zapsané řešení můžeme snadno zahrát, a to tak, že pro sebrání závorky nejprve sebereme všechny závorky v ní, a poté sebereme vnější závorku.
+Výherní strategii pro tuto hru můžeme zapsat pomocí závorek. Každou dvojici kamínků nějaké barvy, kterou máme sebrat v rámci jednoho tahu, zapíšeme jako pár závorek dané barvy. Pro přehlednost přidělím barvám i různé tvary závorek. Například jedno z řešení řady \texttt{\mred\mblue\mblue\mgreen\mgreen\mgreen\mgreen\mred\mred\mgreen\mgreen\mred} je \texttt{\bred{\bblue{}\bgreen{\bgreen{}}}\bred{\bgreen{}}}. Takto zapsané řešení můžeme snadno zahrát, a to tak, že pro sebrání závorky nejprve rekurzivně sebereme všechny závorky v ní, a poté sebereme vnější závorku.
 
 \section{Optimální hra}
 
@@ -60,7 +58,7 @@ Naši řadu kamínků můžeme zapsat takto:
     \texttt{{A}\bredl{B}\underline{\bredr\bredl}{C}\bredr{D}}
 \end{center}
 
-Odebíráme závorky jsou podtržené, písmena označují řešitelné podsekvence. Po odebrání závorek nám zbude takováto řada:
+Odebírané závorky jsou podtržené, písmena označují libovolné řešitelné (potenciálně prázdné) podsekvence. Po odebrání závorek nám zbude takováto řada:
 
 \begin{center}
     \texttt{{A}\bredl{B}{C}\bredr{D}}
@@ -76,7 +74,7 @@ Naši řadu kamínků můžeme zapsat takto:
     \texttt{{A}\underline{\bredl\bredl}{B}\bredr{C}\bredr{D}}
 \end{center}
 
-Po odebrání nám zbude \texttt{{A}{B}\bredr{C}\bredr{D}}. První závorku otočíme a dostaneme tuto řadu:
+Po odebrání nám zbude \texttt{{A}{B}\bredr{C}\bredr{D}}. První závorku převrátíme a dostaneme tuto řadu:
 
 \begin{center}
     \texttt{{A}{B}\bredl{C}\bredr{D}}
@@ -92,7 +90,7 @@ Máme tuto řadu:
     \texttt{{A}\bredl{B}\bredl{C}\underline{\bredr\bredr}{D}}
 \end{center}
 
-Tu obdobně jako \texttt{\bredl\bredl} vyřešíme takto:
+Tu obdobně jako případ \texttt{\bredl\bredl} vyřešíme takto:
 
 \begin{center}
     \texttt{{A}\bredl{B}\bredr{C}{D}}
@@ -108,8 +106,8 @@ Barevné kamínky si uložíme do spojového seznamu. Na začátku ho projdeme a
 
 Vždy z fronty jeden tah odebereme a zahrajeme ho tak, že ze seznamu odstraníme daný kamínek dohromady s kamínkem po něm následujícím. Poté zkontrolujeme, jestli jsme nespojili dva kamínky stejné barvy. Pokud ano, tak první z nich přidáme do fronty.
 
-Může se stát, že zahráním tahu nějakou dvojici narušíme, a tedy ve frontě skončí neplatný tah. Musíme si tedy dát pozor, abychom neplatné tahy ignorovali a nehráli. Každopádně vždy ve frontě budou všechny platné tahy.
+Může se stát, že zahráním tahu nějakou dvojici narušíme, a tedy ve frontě zůstane neplatný tah. Musíme si tedy dát pozor, abychom neplatné tahy ignorovali a nehráli. Každopádně vždy ve frontě budou všechny platné tahy.
 
-Do fronty na začátku vložíme nejvýše $n - 1$ prvků. Další prvek do ní vložíme jen tehdy, když zahrajeme platný tah, a to pro každý tak nejvýše jeden. Tahů za hru zahrajeme nejvýše $\frac{n}{2}$. Do fronty tedy celkem vložíme $\mathcal{O}\left(n\right)$ prvků, a stejně jich vyndáme. Asymptotická časová i paměťová složitost tohoto algoritmu je tedy $\mathcal{O}\left(n\right)$.
+Do fronty na začátku vložíme nejvýše $n - 1$ prvků. Další prvek do ní vložíme jen tehdy, když zahrajeme platný tah, a to pro každý tah nejvýše jednou. Tahů za hru zahrajeme nejvýše $\frac{n}{2}$. Do fronty tedy celkem vložíme $\mathcal{O}\left(n\right)$ prvků, a stejně jich zase vyndáme. Asymptotická časová i paměťová složitost tohoto algoritmu je tedy $\mathcal{O}\left(n\right)$.
 
 \end{document}
