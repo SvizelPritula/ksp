@@ -19,16 +19,14 @@
 \title{35-2-2 Zápisky z přednášky}
 \author{Benjamin Swart}
 
-\pagenumbering{gobble}
-
 \begin{document}
 \maketitle
 
-$k$-té nejmenší číslo v haldě $H$ bude nutně dítě jednoho z prvních $k-1$ nejmenších čísel. Stačí tedy najít $k-1$ nejmenších čísel a projít jejich děti. $k$ nejmenších čísel tedy můžeme najít dynamickým programováním. Z haldy $H$ budeme postupně škrtat\footnote{Algoritmus na odebírání z haldy pochopitelně používat nebudeme. Škrtání bude pouze pomyslné.} čísla a udržovat si kolekci neprozkoumaných dětí.
+$k$-té nejmenší číslo v haldě $H$ bude nutně dítětem jednoho z prvních $k-1$ nejmenších čísel. Stačí tedy najít $k-1$ nejmenších čísel a projít jejich děti. $k$ nejmenších čísel tedy můžeme najít dynamickým programováním. Z haldy $H$ budeme postupně škrtat\footnote{Algoritmus na odebírání z haldy pochopitelně používat nebudeme. Škrtání bude pouze pomyslné.} čísla a udržovat si kolekci neprozkoumaných dětí.
 
-Za tím účelem si vytvoříme haldu $S$, do které přidáme odkaz na kořen haldy $H$. Z $S$ budeme postupně odebereme $k$ čísel. Pokaždé, když z $S$ odebereme nějaké číslo, tak do ní přidáme oba potomky daného čísla z $H$. $k$-té odebrané číslo vrátíme.
+Za tímto účelem si vytvoříme haldu $S$, do které přidáme odkaz na kořen haldy $H$. Z $S$ postupně odebereme $k$ čísel. Pokaždé, když z $S$ odebereme nějaké číslo, tak do ní přidáme oba potomky daného čísla z $H$. $k$-té odebrané číslo vrátíme.
 
-Takto může vypadat průběh algoritmu pro $k=5$:
+Takto může vypadat průběh algoritmu pro $k = 5$:
 
 \begin{center}
     \begin{tikzpicture}
@@ -186,6 +184,6 @@ Takto může vypadat průběh algoritmu pro $k=5$:
 
 Vrcholy v $S$ jsou označeny tučnou čarou, vrcholy co byly z $S$ odebrány jsou označeny šedě.
 
-Časová složitost tohoto algoritmu je $\mathcal{O}\left(l \log{k}\right)$. Kromě paměti potřebné pro uložení $H$ potřebuje $\mathcal{O}\left(k\right)$ další paměti.
+Časová složitost tohoto algoritmu je $\mathcal{O}\left(k \log{k}\right)$. Kromě paměti potřebné pro uložení $H$ potřebuje $\mathcal{O}\left(k\right)$ další paměti.
 
 \end{document}
