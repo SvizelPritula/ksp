@@ -50,7 +50,7 @@ Pak můžeme jedno z řešení zakreslit takto:
     \includegraphics[scale=1]{solution.pdf}
 \end{figure}
 
-Podle jejich podoby v tomto diagramu můžeme odlišit dvě třídy řešitelných řad.
+Podle jejich podoby v tomto diagramu můžeme odlišit dvě třídy řešitelných řad:
 
 \subsection{Vrstva}
 
@@ -61,13 +61,13 @@ Vrstvou nazvu řadu dvou nebo více kamínků stejné barvy, která může být 
     \includegraphics[scale=1]{layer.pdf}
 \end{figure}
 
-První a poslední kulička vrstvy mají nutně stejnou barvu.
+První a poslední kulička vrstvy musí mít nutně stejnou barvu.
 
 Triviálním případem je čára, která se skládá jen z kuliček stejné barvy.
 
 \subsection{Sekvence}
 
-Sekvenci tvoří několik vyřešitelných řad přímo za sebou. Může vypadat například takto:
+Sekvenci tvoří několik vyřešitelných úseků hned za sebou. Může vypadat například takto:
 
 \begin{figure}[H]
     \centering
@@ -77,18 +77,18 @@ Sekvenci tvoří několik vyřešitelných řad přímo za sebou. Může vypadat
 \section{Hledání řešitelných řad}
 \label{section:search}
 
-Budeme postupně hledat všechny řešitelné řady obsažené ve vstupu. Vytvoříme si matici $n \times n$, která bude mít na pozici $i, j$ jedničku právě tehdy, když bude řada od kamínku $i$ do kamínku $j$ řešitelná. Na začátku bude tato matice obsahovat samé nuly. Postupně do ní budeme doplňovat jedničky.
+Budeme postupně hledat všechny řešitelné úseky obsažené ve vstupu. Vytvoříme si matici $n \times n$, která bude mít na pozici $\left[i, j\right]$ jedničku právě tehdy, když bude interval kamínků $\left<i, j\right>$ řešitelný. Na začátku bude tato matice obsahovat samé nuly. Postupně do ní budeme doplňovat jedničky.
 
-Nejprve do matice zapíšeme všechny řešitelné řady o délce 2, tj. dvojice kamínků stejné barvy. Poté do matice přidáme řešitelné řady o délce 3, 4, 5, 6, a tak dále až po řady o délce $n$. K nalezení řad o délce $m$ vždy využijeme již nalezené řady o délce $2$ až $m - 1$. Jak na to je popsáno v sekci \ref{section:composition}. Pokud najdeme řadu o délce $n$, neboli pokud bude na pozici $1, n$ jednička, tak je úloha řešitelná.
+Nejprve do matice zapíšeme všechny řešitelné řady o délce 2, tj. dvojice kamínků stejné barvy. Poté do matice přidáme řešitelné řady o délce 3, 4, 5, 6, a tak dále až po řady o délce $n$. K nalezení intervalů o délce $m$ vždy využijeme již nalezené intervaly o délce $2$ až $m - 1$. Jak na to je popsáno v sekci \ref{section:composition}. Pokud nakonec najdeme řadu o délce $n$, neboli pokud bude na pozici $\left[1, n\right]$ jednička, tak je úloha řešitelná.
 
 \section{Skládání řešitelných řad}
 \label{section:composition}
 
-Musíme ještě popsat, jak složit řešitelné řady o délce $m$ pomocí matice řešitelných řad o délce $2$ až $m - 1$. K tomu nám poslouží klasifikace řešitelných řad popsaná v sekci \ref{section:diagram}. Jednoduše projdeme všechny možné řady $\left<i, j\right>$ o délce $m$ a ověříme, jestli splňují jednu z následujících podmínek:
+Zbývá ještě popsat, jak najít řešitelné úseky o délce $m$ pomocí matice řešitelných úseků o délce $2$ až $m - 1$. K tomu nám poslouží klasifikace řešitelných řad popsaná v sekci \ref{section:diagram}. Jednoduše projdeme všechny možné intervaly $\left<i, j\right>$ o délce $m$ a ověříme, jestli splňují jednu z následujících podmínek:
 
 \subsection{Sekvence}
 
-Nejprve ověříme, jestli daná řada není sekvencí. To zjistíme tak, že ověříme, jestli je možné tuto řadu složit ze dvou menších řešitelných řad. Jinak řečeno, ověříme, zda existuje takové $k \in \left(i, j\right)$, že $\left<i, k\right>$ a $\left<k + 1, j\right>$ jsou řešitelné intervaly. Tím najdeme nejen sekvence složené z dvou řad, ale sekvence delší, protože sekvenci o délce $s$ můžeme složit ze sekvence o délce $s - 1$ a poslední řady.
+Nejprve ověříme, jestli daná řada není sekvencí. To zjistíme tak, že ověříme, jestli je možné tuto řadu složit ze dvou menších řešitelných řad. Jinak řečeno, ověříme, zda existuje takové $k \in \left(i, j - 1\right)$, že $\left<i, k\right>$ a $\left<k + 1, j\right>$ jsou řešitelné intervaly. Tím najdeme nejen sekvence složené z dvou vrstev, ale sekvence delší, protože sekvenci o délce $s$ můžeme složit ze sekvence o délce $s - 1$ a posledního úseku.
 
 \begin{figure}[H]
     \centering
@@ -125,6 +125,6 @@ Pokud jsme ověřili existenci strategie, tak ji ještě musíme zrekonstruovat.
 \section{Analýza složitosti}
 \label{section:analysis}
 
-Postupně ověříme řešitelnost všech $\mathcal{O}\left(n^2\right)$ intervalů. Ve dvou ze tří provedených kontrol musíme ještě najít $k$, které má $\mathcal{O}\left(n\right)$ možných hodnot. Algoritmus tedy poběží v $\mathcal{O}\left(n^3\right)$. Největší datová struktura v paměti je matice $n \times n$. Paměťová složitost bude tedy $\mathcal{O}\left(n^2\right)$.
+Postupně ověříme řešitelnost všech $\mathcal{O}\left(n^2\right)$ intervalů. Ve dvou ze tří provedených kontrol musíme ještě najít $k$, které má $\mathcal{O}\left(n\right)$ možných hodnot. Algoritmus tedy poběží v $\mathcal{O}\left(n^3\right)$. Největší datová struktura v paměti je matice $n \times n$. Paměťová složitost tedy bude $\mathcal{O}\left(n^2\right)$.
 
 \end{document}
