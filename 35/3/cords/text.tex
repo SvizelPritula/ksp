@@ -1,0 +1,45 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[czech]{babel}
+\usepackage{fvextra}
+\usepackage{csquotes}
+\usepackage{parskip}
+
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{siunitx}
+
+\usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
+
+\title{35-3-3 Prodlužovačky}
+\author{Benjamin Swart}
+
+\begin{document}
+\maketitle
+
+\section{Algoritmus}
+
+Dejme tomu, že je přetížená jen prodlužovačka v kořeni stromu. V tomto případě úlohu vyřeší hladový algoritmus, který bude odpojovat přístroj s největším příkonem, dokud nepřestane být prodlužovačka přetížená.
+
+Toto dokážeme sporem. Množina $n$ zařízení s největším příkonem bude nutně mít součet příkonů větší než všechny ostatní množiny $n$ zařízení. Pokud tedy existuje řešení odpojující množinu $n$ zařízení, po jejihž odpojení bude úbytek příkonu dostačující, tak bude nutně po odpojení $n$ zařízení nalezených hladovým algoritmem úbytek příkonu také dostačující.
+
+Celou úlohu můžeme vyřešit rekurzivním hladovým algoritmem. Pro každou prodlužovačku nejprve rekurzivně vyřešíme všechny prodlužovačky v jejím podstromu. Poté z podstromu této prodlužovačky budeme postupně odpojovat zařízení s největším příkonem, dokud tato prodlužovačka nepřestane být přetížená.
+
+Pří řešení jakékoliv prodlužovačky se nemusíme zabývat jakýmikoliv prodlužovačkami ve stromu nad ní. Toto lze dokázat podobným argumentem, jako předchozí tvrzení. Pokud bychom nějakou prodlužovačku vyřešlili jiným způsobem než odpojením zařízení s největším příkonem, tak budou vyšší zařízení akorát muset dosáhnout většího úbytku příkonu.
+
+\section{Efektivní implementace}
+
+Abychom mohli tento algoritmus efektivně implementovat, musíme být rychle schopni zodpovídat dva druhy dotazů:
+
+\begin{enumerate}
+        \item \label{question:load} Jaký je příkon aktuální prodlužovačky?
+        \item \label{question:max} Jaké zařízení v podstromu aktuální prodlužovačky má největší příkon?
+\end{enumerate}
+
+\hyperref[question:load]{První otázku} můžeme zodpovědět snadno.
+
+\end{document}
