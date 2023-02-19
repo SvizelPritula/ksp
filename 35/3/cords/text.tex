@@ -12,6 +12,8 @@
 \usepackage{float}
 \usepackage{amsmath}
 \usepackage{siunitx}
+\usepackage{tikz}
+\usepackage[shortlabels]{enumitem}
 
 \usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
 
@@ -25,21 +27,86 @@
 
 Dejme tomu, že je přetížená jen prodlužovačka v kořeni stromu. V tomto případě úlohu vyřeší hladový algoritmus, který bude odpojovat přístroj s největším příkonem, dokud nepřestane být prodlužovačka přetížená.
 
-Toto dokážeme sporem. Množina $n$ zařízení s největším příkonem bude nutně mít součet příkonů větší než všechny ostatní množiny $n$ zařízení. Pokud tedy existuje řešení odpojující množinu $n$ zařízení, po jejihž odpojení bude úbytek příkonu dostačující, tak bude nutně po odpojení $n$ zařízení nalezených hladovým algoritmem úbytek příkonu také dostačující.
+Toto dokážeme sporem. Množina $n$ zařízení s největším příkonem bude nutně mít součet příkonů větší než všechny ostatní množiny $n$ zařízení. Pokud tedy existuje řešení odpojující množinu $n$ zařízení, po jejichž odpojení bude úbytek příkonu dostačující, tak bude nutně po odpojení $n$ zařízení nalezených hladovým algoritmem úbytek příkonu také dostačující.
 
 Celou úlohu můžeme vyřešit rekurzivním hladovým algoritmem. Pro každou prodlužovačku nejprve rekurzivně vyřešíme všechny prodlužovačky v jejím podstromu. Poté z podstromu této prodlužovačky budeme postupně odpojovat zařízení s největším příkonem, dokud tato prodlužovačka nepřestane být přetížená.
 
-Pří řešení jakékoliv prodlužovačky se nemusíme zabývat jakýmikoliv prodlužovačkami ve stromu nad ní. Toto lze dokázat podobným argumentem, jako předchozí tvrzení. Pokud bychom nějakou prodlužovačku vyřešlili jiným způsobem než odpojením zařízení s největším příkonem, tak budou vyšší zařízení akorát muset dosáhnout většího úbytku příkonu.
+Pří řešení jakékoliv prodlužovačky se nemusíme zabývat jakýmikoliv prodlužovačkami ve stromu nad ní. Toto lze dokázat podobným argumentem, jako předchozí tvrzení. Pokud bychom nějakou prodlužovačku vyřešili jiným způsobem než odpojením zařízení s největším příkonem, tak budou vyšší zařízení akorát muset dosáhnout většího úbytku příkonu.
 
 \section{Efektivní implementace}
 
 Abychom mohli tento algoritmus efektivně implementovat, musíme být rychle schopni zodpovídat dva druhy dotazů:
 
 \begin{enumerate}
-        \item \label{question:load} Jaký je příkon aktuální prodlužovačky?
-        \item \label{question:max} Jaké zařízení v podstromu aktuální prodlužovačky má největší příkon?
+    \item \label{question:load} Jaký je příkon aktuální prodlužovačky?
+    \item \label{question:max} Jaké zařízení v podstromu aktuální prodlužovačky má největší příkon?
 \end{enumerate}
 
-\hyperref[question:load]{První otázku} můžeme zodpovědět snadno.
+\hyperref[question:load]{První otázku} můžeme zodpovědět snadno. Algoritmus implementujeme rekurzivně, takže příkon nějaké prodlužovačky spočítáme jako součet příkonů jejích dětí. Pokud nějaké zařízení odpojíme, tak jeho příkon od příkonu aktuální prodlužovačky odečteme.
+
+Odpovědět na \hyperref[question:max]{druhou otázku} je o něco těžší. Použiji k ní datovou strukturu ne nepodobnou intervalovému stromu z autorského řešení 34-1-X1. Zařízení si uložíme do seznamu v tom pořadí, ve kterém je projde vyhledávání do hloubky. To má za následek, že potomci každé prodlužovačky budou tvořit souvislý interval. Tento interval si ke každé prodlužovačce uložíme.
+
+Uvažujme například toto zapojení:
+
+\begin{center}
+    \begin{tikzpicture}
+        \tikzstyle{level 1}=[sibling distance=30mm]
+        \tikzstyle{level 2}=[sibling distance=10mm]
+        \tikzstyle{every node}=[circle, draw, minimum size=7mm]
+
+        \node {$a$}
+        child {
+                node {$b$}
+                child {
+                        node {$A$}
+                    }
+                child {
+                        node {$c$}
+                        child {
+                                node {$B$}
+                            }
+                        child {
+                                node {$C$}
+                            }
+                    }
+            }
+        child {
+                node {$d$}
+                child {
+                        node {$D$}
+                    }
+                child {
+                        node {$e$}
+                        child {
+                                node {$E$}
+                            }
+                        child {
+                                node {$F$}
+                            }
+                    }
+                child {
+                        node {$G$}
+                    }
+            };
+    \end{tikzpicture}
+\end{center}
+
+Náš seznam bude obsahovat zařízení $\left[A, B, C, D, E, F, G\right]$. Prodlužovačkám budou přiřazeny intervaly takto:
+
+\begin{enumerate}[a)]
+    \item $\left[1; 7\right]$
+    \item $\left[1; 3\right]$
+    \item $\left[2; 3\right]$
+    \item $\left[4; 7\right]$
+    \item $\left[5; 6\right]$
+\end{enumerate}
+
+Nad seznamem zařízení postavíme maximový intervalový strom. Pokaždé, když nějaké zařízení odpojíme, tak nastavíme jeho příkon na nulu. To nám umožní snadno kdykoliv zodpovědět \hyperref[question:max]{druhou otázku}.
+
+Také existuje podobný alternativní způsob jak zodpovídat \hyperref[question:load]{první otázku}, a to pomocí součtového stromu.
+
+\section{Analýza složitosti}
+
+Vytvořit seznam vrcholů zvládneme v $\mathcal{O}(n)$, postavit nad ním intervalový strom dokážeme v $\mathcal{O}(n \log n)$. Rekurzivní průchod stromem sám o sobě zabere jen $\mathcal{O}(n)$ času, ale pokaždé, když chceme odpojit zařízení, tak musíme nejprve najít zařízení k odpojení, což zabere $\mathcal{O}(\log n)$ času. Nemůžeme však odpojit více zařízení než máme, takže je čas strávený procházením intervalového stromu shora omezený $\mathcal{O}(n \log n)$. Celková časová složitost je tedy $\mathcal{O}(n \log n)$, paměťová je stejná.
 
 \end{document}
