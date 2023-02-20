@@ -1,0 +1,50 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+
+\usepackage[czech]{babel}
+\usepackage{fvextra}
+\usepackage{csquotes}
+\usepackage{parskip}
+
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{tensor}
+\usepackage{icomma}
+
+\usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
+
+\title{Matice dosažitelnosti}
+\author{Benjamin Swart}
+
+\pagenumbering{gobble}
+
+\begin{document}
+
+Snažíme se posloupnost zapsat pomocí bazických vektorů ze zadání ve tvaru $a * 3^n + b * (-1)^n$.
+
+\begin{align*}
+    a * 3^n + b * (-1)^n & = s_n          \\
+    \\
+    a * 3^0 + b * (-1)^0 & = s_0          \\
+    a + b                & = 0            \\
+    b                    & = -a           \\
+    \\
+    a * 3^1 + b * (-1)^1 & = s_1          \\
+    3a - b               & = 1            \\
+    4a                   & = 1            \\
+    \\
+    a                    & = \frac{1}{4}  \\
+    b                    & = -\frac{1}{4} \\
+\end{align*}
+
+Hledaný vzorec tedy vypadá takto:
+
+\begin{align*}
+    s_n & = \frac{1}{4} 3^n - \frac{1}{4} (-1)^n  \\
+    s_n & = \frac{1}{4} \left(3^n - \left(-1\right)^n\right) \\
+\end{align*}
+
+\end{document}

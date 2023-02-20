@@ -1,0 +1,39 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+
+\usepackage[czech]{babel}
+\usepackage{fvextra}
+\usepackage{csquotes}
+\usepackage{parskip}
+
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{tensor}
+\usepackage{icomma}
+
+\usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
+
+\title{Matice dosažitelnosti}
+\author{Benjamin Swart}
+
+\pagenumbering{gobble}
+\setcounter{secnumdepth}{0}
+
+\begin{document}
+
+\section{Určení počtu řešení}
+
+Nejprve zjistíme, jestli má tato rovnice vůbec nějaké řešení, neboli jestli $b \in S\left(A\right)$. To zjistíme tak, že ověříme, jestli jsou vektory $\left\{b, s_1, s_2, \dots,s_r\right\}$ lineárně závislé. To můžeme udělat Gaussovou eliminací.
+
+Tato metoda má časovou složitost $\mathcal{O}\left(m r^2\right)$, zatímco přímočaré řešení má složitost $\mathcal{O}\left(m n \min\left(m, n\right)\right)$. Bude tedy efektivnější pro matice s velkým $k$.
+
+\section{Vyjádření množiny řešení}
+
+Jakmile máme jedno řešení $x_0$, tak můžeme množinu všech řešení snadno zapsat ve tvaru $x_0 + x_K; x_K \in \ker\left(A\right)$.
+
+Tato metoda je v porovnání s Gaussovou eliminací nesrovnatelně rychlejší, jelikož nezabere téměř žádný čas. Přesná časová složitost závisí na požadovaném formátu řešení, ale v podobě součtu vektorů s proměnnými koeficienty jej dokážeme vypsat v $\mathcal{O}\left(nk\right)$.
+
+\end{document}

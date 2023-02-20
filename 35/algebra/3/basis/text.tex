@@ -1,0 +1,148 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+
+\usepackage[czech]{babel}
+\usepackage{fvextra}
+\usepackage{csquotes}
+\usepackage{parskip}
+
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{tensor}
+\usepackage{icomma}
+
+\usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
+
+\title{Matice dosažitelnosti}
+\author{Benjamin Swart}
+
+\pagenumbering{gobble}
+
+\begin{document}
+
+Chceme najít matice převodu mezi následujícími bázemi prostoru kvadratických funkcí:
+
+\begin{itemize}
+    \item $B$ - Komponenty reprezentují koeficienty funkce: $
+              \begin{bmatrix}
+                  c \\
+                  b \\
+                  a
+              \end{bmatrix}
+          $
+    \item $C$ - Komponenty reprezentují hodnoty funkce pro $x = -1; 0; 1$: $
+              \begin{bmatrix}
+                  q(-1) \\
+                  q(0)  \\
+                  q(1)
+              \end{bmatrix}
+              =
+              \begin{bmatrix}
+                  a - b + c \\
+                  c         \\
+                  a + b + c
+              \end{bmatrix}
+          $
+\end{itemize}
+
+Matici přechodu z $B$ do $C$ snadno získáme tak, že vyhodnotíme funkce $1$, $x$ a $x^2$ pro $x = -1; 0; 1$.
+
+\begin{align*}
+    \tensor[_C]{[id]}{_B} & = \begin{bmatrix}
+                                  1 & -1 & 1 \\
+                                  1 & 0  & 0 \\
+                                  1 & 1  & 1
+                              \end{bmatrix}
+\end{align*}
+
+Pro sestavení matice přechodu z $C$ do $B$ musíme najít kvadratické funkce, které mají v bodech $x = -1; 0; 1$ správné hodnoty. Jinak řečeno hledáme vektory, kterými musíme vynásobit $\tensor[_C]{[id]}{_B}$, abychom získali jednotkové vektory v bázi $C$. Ty snadno spočítáme Gaussovou eliminační metodou.\footnote{Můžeme využít program z první série.}
+
+\begin{align*}
+    \begin{bmatrix}
+        1 & -1 & 1 \\
+        1 & 0  & 0 \\
+        1 & 1  & 1 \\
+    \end{bmatrix} [c_1]_B & = \begin{bmatrix}
+                                  1 \\
+                                  0 \\
+                                  0 \\
+                              \end{bmatrix} \\
+    [c_1]_B               & = \begin{bmatrix}
+                                  0    \\
+                                  -0,5 \\
+                                  0,5  \\
+                              \end{bmatrix} \\\\
+    \begin{bmatrix}
+        1 & -1 & 1 \\
+        1 & 0  & 0 \\
+        1 & 1  & 1 \\
+    \end{bmatrix} [c_2]_B & = \begin{bmatrix}
+                                  0 \\
+                                  1 \\
+                                  0 \\
+                              \end{bmatrix} \\
+    [c_2]_B               & = \begin{bmatrix}
+                                  1  \\
+                                  0  \\
+                                  -1 \\
+                              \end{bmatrix} \\\\
+    \begin{bmatrix}
+        1 & -1 & 1 \\
+        1 & 0  & 0 \\
+        1 & 1  & 1 \\
+    \end{bmatrix} [c_3]_B & = \begin{bmatrix}
+                                  0 \\
+                                  0 \\
+                                  1 \\
+                              \end{bmatrix} \\
+    [c_3]_B               & = \begin{bmatrix}
+                                  0   \\
+                                  0,5 \\
+                                  0,5 \\
+                              \end{bmatrix}
+\end{align*}
+
+Matice přechodu z $C$ do $B$ tedy bude vypadat takto:
+
+\begin{align*}
+    \tensor[_B]{[id]}{_C} & = \begin{bmatrix}
+                                  0    & 1  & 0   \\
+                                  -0,5 & 0  & 0,5 \\
+                                  0,5  & -1 & 0,5
+                              \end{bmatrix}
+\end{align*}
+
+Zobrazení $\tensor[_C]{[g]}{_C}$ do báze $B$ tedy převedeme takto:
+
+\begin{align*}
+    \tensor[_B]{[g]}{_B} & = \tensor[_B]{[id]}{_C} * \tensor[_C]{[g]}{_C} * \tensor[_C]{[id]}{_B} \\
+    \tensor[_B]{[g]}{_B} & =
+    \begin{bmatrix}
+        0    & 1  & 0   \\
+        -0,5 & 0  & 0,5 \\
+        0,5  & -1 & 0,5
+    \end{bmatrix}
+    * \begin{bmatrix}
+          0 & 0 & 1 \\
+          0 & 1 & 0 \\
+          1 & 0 & 0 \\
+      \end{bmatrix}
+    * \begin{bmatrix}
+          1 & -1 & 1 \\
+          1 & 0  & 0 \\
+          1 & 1  & 1
+      \end{bmatrix}                                                                              \\
+    \tensor[_B]{[g]}{_B} & =
+    \begin{bmatrix}
+        1 & 0  & 0 \\
+        0 & -1 & 0 \\
+        0 & 0  & 1 \\
+    \end{bmatrix}                                                                                \\
+\end{align*}
+
+Tato matice se dá snadno odvodit. Zrcadlení funkce znamená, že invertujeme parametr $x$, čímž z funkce $f(x) = ax^2 + bx + c$ získáme $f_z(x) = ax^2 - bx + c$. Také na tuto operaci můžeme pohlížet tak, že zrcadlíme jednotlivé souřadnice báze. $x^2$ i $1$ jsou sudé funkce, zatímco $x$ je funkce lichá. $x^2$ a $1$ tedy necháme beze změny a u $x$ změníme znaménko.
+
+\end{document}
