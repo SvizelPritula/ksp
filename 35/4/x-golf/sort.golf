@@ -42,7 +42,9 @@ k2q # Initial node + 1
 
         # Stack: ..., loop counter, next parent, parent, child, child value, parent value
 
-        d2cg( # Swap if child smaller
+        x # Swap
+
+        d2cg( # Swap if back child larger
             x
             4ko # Set loop counter to large value
         )i
