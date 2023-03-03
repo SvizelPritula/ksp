@@ -4,13 +4,28 @@
 k # Heap size
 d2q1s # Initial node + 1
 (
-    d
+    1c # While size > 0
 )
 (
     d # Starting node
+
+    d0l( # If counter < 0
+        px # Remove starting node, size to top
+        # Stack: ..., counter, size
+        1s # Decrement size
+
+        d2ac # Load bottom
+        3c # Load top
+
+        2c3axo # Write top to bottom
+        2xo # Write bottom to top
+
+        x0 # Swap back, replace starting node
+    )i
+
     (
         d2m1a # Left child
-        2c # Heap size
+        3c # Heap size
         l
     )
     (
@@ -18,7 +33,7 @@ d2q1s # Initial node + 1
 
         d2m1a # Push left child
 
-        d1a4c( # Check if right child valid
+        d1a4cl( # Check if right child valid
             d1a # Get right child
             # Stack: ..., size, loop counter, parent, left, right
 
