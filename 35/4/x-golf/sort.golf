@@ -2,8 +2,9 @@
 
 # Main loop
 k # Heap size
-d2q1s # Initial node + 1
+d2q # Initial node + 1
 (
+    1s # Decrement counter
     1c # While size > 0
 )
 (
@@ -29,50 +30,48 @@ d2q1s # Initial node + 1
         l
     )
     (
-        # Stack: ..., size, loop counter, parent
+        # Stack: ..., size, counter, parent
 
         d2m1a # Push left child
 
         d1a4cl( # Check if right child valid
             d1a # Get right child
-            # Stack: ..., size, loop counter, parent, left, right
+            # Stack: ..., size, counter, parent, left, right
 
+            4ac # Load right child
             1c5ac # Load left child
-            1c6ac # Load right child
 
-            g( # Put smallest index on bottom
-                x
-            )i
-            p # Remove larger index
+            # Stack: ..., size, counter, parent, left, right value, left value
+
+            la # If right smaller increment pointer from left to right child
         )i
 
-        # Stack: ..., size, loop counter, parent, small child
+        # Stack: ..., size, counter, parent, small child
 
         x1c
 
-        # Stack: ..., size, loop counter, next parent, parent, child
+        # Stack: ..., size, counter, next parent, parent, child
 
         4a # Adjust child pointer for future store
 
         d1ac # Load child
         2c6ac # Load parent
 
-        # Stack: ..., size, loop counter, next parent, parent, child, child value, parent value
+        # Stack: ..., size, counter, next parent, parent, child, child value, parent value
 
         x # Swap
 
         d2cg( # Swap if back child larger
             x
-            4ko # Set loop counter to large value
+            4ko # Set counter to large value
         )i
 
-        # Stack: ..., size, loop counter, next parent, parent, child, large value, small value
+        # Stack: ..., size, counter, next parent, parent, child, large value, small value
         3c6axo # Write small value to parent
         o # Write large value to child
 
-        # Stack: ..., size, loop counter, next parent, parent
+        # Stack: ..., size, counter, next parent, parent
         p
     )wp
-    1s # Decrement counter
 )w
 pp
