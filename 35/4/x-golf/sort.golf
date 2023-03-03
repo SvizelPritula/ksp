@@ -15,11 +15,19 @@ d2q # Initial node + 1
         # Stack: ..., counter, size
         1s # Decrement size
 
-        d2ac # Load bottom
-        3c # Load top
+        d2a # Prepare bottom pointer for store
+        d1a # Prepare bottom pointer for load
 
-        2c3axo # Write top to bottom
-        2xo # Write bottom to top
+        # Stack: ..., counter, size, bottom, bottom
+
+        c # Load bottom
+        4c # Load top
+
+        x # Swap
+        # Stack: ..., counter, size, bottom, top value, bottom value
+
+        4xo # Write bottom to top
+        o # Write top to bottom
 
         x0 # Swap back, replace starting node
     )i
