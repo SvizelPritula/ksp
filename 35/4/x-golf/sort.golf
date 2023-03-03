@@ -1,27 +1,29 @@
-## Heapify
+## Heap sort
 
 # Main loop
-k2q # Initial node + 1
+k # Heap size
+d2q1s # Initial node + 1
 (
     d
 )
 (
-    1s # Decrement counter
     d # Starting node
     (
-        d2mk3sl
+        d2m1a # Left child
+        2c # Heap size
+        l
     )
     (
-        # Stack: ..., loop counter, parent
+        # Stack: ..., size, loop counter, parent
 
         d2m1a # Push left child
 
-        d5akl( # Check if right child valid
+        d1a4c( # Check if right child valid
             d1a # Get right child
-            # Stack: ..., loop counter, parent, left, right
+            # Stack: ..., size, loop counter, parent, left, right
 
-            1c4ac # Load left child
-            1c5ac # Load right child
+            1c5ac # Load left child
+            1c6ac # Load right child
 
             g( # Put smallest index on bottom
                 x
@@ -29,18 +31,18 @@ k2q # Initial node + 1
             p # Remove larger index
         )i
 
-        # Stack: ..., loop counter, parent, small child
+        # Stack: ..., size, loop counter, parent, small child
 
         x1c
 
-        # Stack: ..., loop counter, next parent, parent, child
+        # Stack: ..., size, loop counter, next parent, parent, child
 
-        3a # Adjust child pointer for store
+        4a # Adjust child pointer for future store
 
         d1ac # Load child
-        2c5ac # Load parent
+        2c6ac # Load parent
 
-        # Stack: ..., loop counter, next parent, parent, child, child value, parent value
+        # Stack: ..., size, loop counter, next parent, parent, child, child value, parent value
 
         x # Swap
 
@@ -49,14 +51,16 @@ k2q # Initial node + 1
             4ko # Set loop counter to large value
         )i
 
-        # Stack: ..., loop counter, next parent, parent, child, large value, small value
-        3c5axo # Write small value to parent
+        # Stack: ..., size, loop counter, next parent, parent, child, large value, small value
+        3c6axo # Write small value to parent
         o # Write large value to child
 
-        # Stack: ..., loop counter, next parent, parent
+        # Stack: ..., size, loop counter, next parent, parent
         p
     )wp
-)wp
+    1s # Decrement counter
+)w
+pp
 
 #    0
 #  1   2
