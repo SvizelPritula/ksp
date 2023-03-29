@@ -69,11 +69,8 @@ d2q # Initial node + 1
 
         # Stack: ..., size, counter, next parent, parent, child, child value, parent value
 
-        x # Swap
-
-        d2cg( # Swap if back child larger
+        d2cg( # Swap if child larger
             x
-            4ko # Set counter to large value
         )i
 
         # Stack: ..., size, counter, next parent, parent, child, large value, small value
