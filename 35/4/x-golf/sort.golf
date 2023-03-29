@@ -41,20 +41,16 @@ d2q # Initial node + 1
     (
         # Stack: ..., size, counter, parent, left child
 
-        1a
+        d1a4cl( # Check if right child valid
+            # Stack: ..., size, counter, parent, left
 
-        d4cl( # Check if right child valid
-            # Stack: ..., size, counter, parent, right
+            d4ac # Load left child
+            1c6ac # Load right child
 
-            d3ac # Load left child
-            1c5ac # Load right child
+            # Stack: ..., size, counter, parent, left, left value, right value
 
-            # Stack: ..., size, counter, parent, right, left value, right value
-
-            ga # If right smaller increment pointer to right + 1
+            ga # If right smaller increment pointer to right
         )i
-
-        1s # Shift pointer left
 
         # Stack: ..., size, counter, parent, small child
 
