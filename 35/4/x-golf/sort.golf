@@ -2,7 +2,7 @@
 
 # Main loop
 k # Heap size
-d2q # Initial node + 1
+d # Initial node (overshoots, doesn't matter)
 (
     1s # Decrement counter
     1c # While size > 0
