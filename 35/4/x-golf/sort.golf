@@ -58,14 +58,16 @@ d2q # Initial node + 1
 
         # Stack: ..., size, counter, parent, small child
 
-        x1c
+        x
+        6a # Adjust parent pointer for future access
+        1c
 
         # Stack: ..., size, counter, next parent, parent, child
 
         4a # Adjust child pointer for future store
 
         d1ac # Load child
-        2c6ac # Load parent
+        2cc # Load parent
 
         # Stack: ..., size, counter, next parent, parent, child, child value, parent value
 
@@ -74,7 +76,7 @@ d2q # Initial node + 1
         )i
 
         # Stack: ..., size, counter, next parent, parent, child, large value, small value
-        3c6axo # Write small value to parent
+        3cxo # Write small value to parent
         o # Write large value to child
 
         # Stack: ..., size, counter, next parent, parent
