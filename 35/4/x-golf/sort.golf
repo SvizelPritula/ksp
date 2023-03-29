@@ -34,13 +34,14 @@ d2q # Initial node + 1
 
     (
         d2m1a # Left child
-        3c # Heap size
+        d # Copy child for use in loop
+        4c # Heap size
         l
     )
     (
-        # Stack: ..., size, counter, parent
+        # Stack: ..., size, counter, parent, left child
 
-        d2m2a # Push right child
+        1a
 
         d4cl( # Check if right child valid
             # Stack: ..., size, counter, parent, right
@@ -81,6 +82,6 @@ d2q # Initial node + 1
 
         # Stack: ..., size, counter, next parent, parent
         p
-    )wp
+    )wpp
 )w
 pp
