@@ -12,9 +12,8 @@ d # Initial node (overshoots, doesn't matter)
     d0l( # If counter < 0
         p # Remove counter
         # Stack: ..., size
-        1s # Decrement size
 
-        d1a # Prepare bottom pointer for store
+        d # Prepare bottom pointer for store
         d1a # Prepare bottom pointer for load
 
         # Stack: ..., size, bottom, bottom
@@ -27,6 +26,8 @@ d # Initial node (overshoots, doesn't matter)
 
         3xo # Write bottom to top
         o # Write top to bottom
+
+        1s # Decrement size
 
         0 # Set counter to 0
     )i
