@@ -7,7 +7,9 @@ d # Initial node (overshoots, doesn't matter)
     1c # While size > 0
 )
 (
-    d0e( # If counter will be -1 (is 0)
+    1s # Decrement counter
+
+    d0l( # If counter < 0
         p # Remove counter
         # Stack: ..., size
         1s # Decrement size
@@ -26,10 +28,9 @@ d # Initial node (overshoots, doesn't matter)
         3xo # Write bottom to top
         o # Write top to bottom
 
-        1 # Set counter to 1, will become zero
+        0 # Set counter to 0
     )i
 
-    1s # Decrement counter
     d # Starting node
 
     (
