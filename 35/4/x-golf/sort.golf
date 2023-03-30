@@ -4,33 +4,33 @@
 k # Heap size
 d # Initial node (overshoots, doesn't matter)
 (
-    1s # Decrement counter
     1c # While size > 0
 )
 (
-    d # Starting node
-
-    d0l( # If counter < 0
-        px # Remove starting node, size to top
-        # Stack: ..., counter, size
+    d0e( # If counter will be -1 (is 0)
+        p # Remove counter
+        # Stack: ..., size
         1s # Decrement size
 
-        d2a # Prepare bottom pointer for store
+        d1a # Prepare bottom pointer for store
         d1a # Prepare bottom pointer for load
 
-        # Stack: ..., counter, size, bottom, bottom
+        # Stack: ..., size, bottom, bottom
 
         c # Load bottom
-        4c # Load top
+        3c # Load top
 
         x # Swap
-        # Stack: ..., counter, size, bottom, top value, bottom value
+        # Stack: ..., size, bottom, top value, bottom value
 
-        4xo # Write bottom to top
+        3xo # Write bottom to top
         o # Write top to bottom
 
-        x0 # Swap back, replace starting node
+        1 # Set counter to 1, will become zero
     )i
+
+    1s # Decrement counter
+    d # Starting node
 
     (
         d2m1a # Left child
