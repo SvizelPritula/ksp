@@ -1,0 +1,52 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[english]{babel}
+\usepackage{fvextra}
+\usepackage{csquotes}
+\usepackage{parskip}
+
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{minted}
+
+\usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
+
+\title{35-4-2 Kevin's Spectacular Goodbye}
+\author{Benjamin Swart}
+
+\begin{document}
+\maketitle
+
+A simple way to reverse the order of the words in the message is to simply reverse the entire message character by character. For example, if the message used to be \enquote{\texttt{FLIGHT NICE A HAVE}}, this will turn it into \enquote{\texttt{EVAH A ECIN THGILF}}. This will certainly put the words in the correct order, but now the characters within each word will be in reverse order. Fortunately, it's pretty simple to go to the message, find each word and reverse it.
+
+In pseudo-code:
+
+\begin{minted}{python3}
+def reverse(start, end):
+    while end > start:
+        swap(start, end)
+
+        start += 1
+        end -= 1
+
+def reverse_words(length):
+    reverse(0, length - 1)
+
+    word_start = 0
+
+    for i in range(length):
+        if get_char(i) == ' ':
+            word_end = i - 1
+            reverse(word_start, word_end)
+
+            word_start = i + 1
+\end{minted}
+
+This algorithm has a run-time of $\mathcal{O}(n)$ and uses constant extra space.
+
+\end{document}
