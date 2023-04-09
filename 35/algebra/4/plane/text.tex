@@ -1,0 +1,103 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[czech]{babel}
+\usepackage{fvextra}
+\usepackage{csquotes}
+\usepackage{parskip}
+
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{graphicx}
+
+\usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
+
+\graphicspath{{images}}
+
+\title{Mnohoúhelník}
+\author{Benjamin Swart}
+
+\begin{document}
+
+Máme bod $x$ a rovinu $\rho$:
+
+\begin{align*}
+    x =   & \begin{bmatrix}
+                6 \\ 3 \\ 3
+            \end{bmatrix} \\
+    \rho: & \ c + U a      \\
+    =     &
+    \begin{bmatrix}
+        1 \\ 2 \\ 3
+    \end{bmatrix} +
+    \begin{bmatrix}
+        2  & 4 \\
+        -3 & 4 \\
+        6  & 2
+    \end{bmatrix}
+    \begin{bmatrix}
+        a_1 \\
+        a_2
+    \end{bmatrix}
+\end{align*}
+
+Vzdálenost se určitě nezmění, pokud oba útvary posuneme. Od obou odečteme vektor $c$. (Pro posunuté útvary použiji původní jména, je zbytečné přiřazovat nová.)
+
+\begin{align*}
+    x =   & \begin{bmatrix}
+                5 \\
+                1 \\
+                0
+            \end{bmatrix} \\
+    \rho: & \ U a          \\
+    =     &
+    \begin{bmatrix}
+        2  & 4 \\
+        -3 & 4 \\
+        6  & 2
+    \end{bmatrix}
+    \begin{bmatrix}
+        a_1 \\
+        a_2
+    \end{bmatrix}
+\end{align*}
+
+Nyní prochází $\rho$ počátkem souřadnic. Abychom určili vzdálenost bodu $x$ od roviny $\rho$, tak najdeme normalizovaný vektor kolmý na $\rho$ a pak určíme velikost projekce $x$ na $\rho$.
+
+Vektor kolmý na $\rho$ najdeme pomocí jádra matice. Jádro matice je množinou všech vektorů kolmých na řádky matice, takže spočítáme jádro matice, které má báze naší roviny jako řádky, neboli $U^T$. Pomocí kalkulačky z prvního dílu můžeme vypočítat, že řešením jsou násobky vektoru $\left[-3, 2, 2\right]^T$, který můžeme normalizovat:
+
+\begin{align*}
+    n & = \sqrt{17}^{-1}
+    \begin{bmatrix}
+        -3 \\ 2 \\ 2
+    \end{bmatrix}                         \\
+      & = \begin{bmatrix}
+              \frac{-3}{\sqrt{17}} \\
+              \frac{2}{\sqrt{17}}  \\
+              \frac{2}{\sqrt{17}}
+          \end{bmatrix}
+\end{align*}
+
+Nakonec spočítáme projekci skalárním součinem:
+
+\begin{align*}
+    n \cdot x & =
+    \begin{bmatrix}
+        \frac{-3}{\sqrt{17}} \\
+        \frac{2}{\sqrt{17}}  \\
+        \frac{2}{\sqrt{17}}
+    \end{bmatrix}
+    \cdot
+    \begin{bmatrix}
+        5 \\ 1 \\ 0
+    \end{bmatrix}
+    = -\frac{13}{\sqrt{17}}
+\end{align*}
+
+Vzdálenost bude absolutní hodnota výsledku, neboli $\frac{13}{\sqrt{17}}$.
+
+\end{document}
