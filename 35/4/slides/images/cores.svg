@@ -25,7 +25,7 @@
      inkscape:document-units="mm"
      showgrid="true"
      inkscape:zoom="2.9611953"
-     inkscape:cx="116.50701"
+     inkscape:cx="115.66275"
      inkscape:cy="123.76759"
      inkscape:window-width="1920"
      inkscape:window-height="946"
@@ -203,7 +203,7 @@
        r="2.5"
        transform="rotate(90.034162)" />
     <circle
-       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#b3b3b3;stroke:#000000;stroke-width:1;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1;fill-opacity:1"
        id="circle3605"
        cx="29.976147"
        cy="-40.017879"

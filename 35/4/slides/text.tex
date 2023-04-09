@@ -26,7 +26,7 @@
 
 \section{Komponenty a jádro}
 
-Graf skluzavek můžeme rozdělit na komponenty souvislosti. Každá komponenta má nějaké \textit{jádro}, ve kterém Filip skončí, pokud se z nějakého políčka začne klouzat. Jelikož z každého políčka vede nejvíše jedna skluzavka, tak existuje po výběru startovního políčka jen jedna možná cesta. Jádro může být buď cyklus, nebo políčko, ze kterého nevede žádná skluzavka.
+Graf skluzavek můžeme rozdělit na komponenty souvislosti. Každá komponenta má nějaké \textit{jádro}, ve kterém Filip skončí, pokud se z nějakého políčka začne klouzat. Jelikož z každého políčka vede nejvýše jedna skluzavka, tak existuje po výběru startovního políčka jen jedna možná cesta. Jádro může být buď cyklus, nebo políčko, ze kterého nevede žádná skluzavka.
 
 \begin{figure}[ht]
     \centering
@@ -46,7 +46,7 @@ Souvislé grafy mají jednu komponentu souvislosti, a díky tomu i jen jedno já
     \caption{Nové skluzavky vedoucí z jádra do listů}
 \end{figure}
 
-Z každého políčka se pak Filip může snadno dostat do každého jiného tak, že nejprve sjede do jádra, pak vyjede do jednoho z listů podstomu cílového políčka, a nakonec sjede do cíle. Toto řešení postaví tolik skluzavek, jako je v grafu listů. Bude určitě optimální, jelikož řešení určitě nemůže ponechat žádné políčko bez skluzavky, která by v něm končila.
+Z každého políčka se pak Filip může snadno dostat do každého jiného tak, že nejprve sjede do jádra, pak vyjede do jednoho z listů podstromu cílového políčka, a nakonec sjede do cíle. Toto řešení postaví tolik skluzavek, jako je v grafu listů. Bude určitě optimální, jelikož řešení určitě nemůže ponechat žádné políčko bez skluzavky, která by v něm končila.
 
 \section{Spojování komponent}
 
@@ -76,7 +76,9 @@ Touto optimalizací zredukujeme počet skluzavek na počet listů plus počet \t
 
 Zbývá jen popsat, jak počítání potřebných skluzavek implementovat. Spočítat listy je snadné, prostě pro každé políčko nejprve spočítáme, kolik v něm končí skluzavek, a potom spočítáme políčka, ve kterých nekončí žádná. Pokud graf obsahuje smyčky, tak je ignorujeme. To zvládneme snadno v čase $\mathcal{O}(n + m) = \mathcal{O}(n)$, protože $m \leq n$. Tím započítáme i holá jádra složená z jednoho políčka, takže nám zbývá jen spočítat holá jádra složená z cyklu dvou nebo více políček.
 
-Počítání cyklů v takovémto grafu není těžké. Stačí vždy začít v nějakém políčku, procházet skluzavky a označovat všechna projetá políčka číslem políčka, ve kterém jsme začali. Pokud narazíme na políčko označené číslem, kterým aktuálně označujeme, tak jsme našli cyklus. Pokud narazíme na políčko označené jiným číslem, tak jsme narazili na prozkoumanou část grafu a můžeme přestat. Postupně se pokusíme začít ve všech políčkách grafu. (Pokud začneme o označeném políčku, tak hned skončíme.) Tento algoritmus také poběží v $\mathcal{O}(n)$.
+Počítání holých cyklů v takovémto grafu není těžké. Všechny políčka v holém cyklu mají právě jednu vstupní i výstupní skluzavku, takže se při hledání omezíme jen na ně. Postupně začneme simulovat klouzání z každého z nich, dokud se nedostaneme buď na políčko, které nemá jednu vstupní a výstupní skluzavku. Pokud se vrátíme na původní políčko, tak započítáme holý cyklus. Navštívená políčka označujeme a už v nich dále nezačínáme. Tento algoritmus poběží v $\mathcal{O}(n)$, protože z každého políčka pokračuje dál nejvýše jednou.
+
+Musíme si ještě dát pozor na případ, kdy obsahuje graf jen jednu komponentu souvislosti, protože v tom případě nepotřebujeme žádné spojovací hrany. Pokud tato jediná komponenta není holé jádro, tak jí tento algoritmus žádnou spojovací hranu nezapočítá. Pokud však celý graf tvoří jen jedno holé jádro, tak tento algoritmus započítá jednu hranu, ačkoliv není potřeba žádná. Zda graf tvoří jen jedno políčko bez skluzavek ověříme snadno, zbývá jen určit, jestli je cyklem. Začneme tedy na libovolném políčku grafu, začneme simulovat klouzání a zkontrolujeme, jestli skončíme na políčku, kde jsme začali, a jestli po cestě navštívíme všechna ostatní políčka. To zvládneme ověřit v $\mathcal{O}(n)$.
 
 Celý algoritmus tedy poběží v $\mathcal{O}(n)$ a použije $\mathcal{O}(n)$ paměti.
 
