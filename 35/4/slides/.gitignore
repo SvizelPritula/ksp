@@ -1,0 +1,15 @@
+/*.pdf
+
+*.aux
+*.bib
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.bak
+_minted-text/
