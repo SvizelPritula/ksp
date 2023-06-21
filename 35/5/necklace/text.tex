@@ -1,0 +1,45 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[czech]{babel}
+\usepackage{fvextra}
+\usepackage{csquotes}
+\usepackage{parskip}
+
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{graphicx}
+
+\usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
+
+\graphicspath{{images}}
+
+\title{35-5-3 Nejkrásnější náhrdelník}
+\author{Benjamin Swart}
+
+\begin{document}
+\maketitle
+
+Kamínek $a$ prohlásíme za \textit{lepší} než kamínek $b$, pokud náhrdelník začínající kamínkem $a$ je hezčí než náhrdelník začínající kamínkem $b$. Snažíme se najít co nejlepší kamínek.
+
+Budeme si udržovat množinu $C$ kandidátů na pozici nejlepšího kamínku. Tuto množinu budeme postupně redukovat, dokud nám nezbyde buď jeden nejlepší kamínek, nebo množina kamínků na děleném prvním místě. Budeme udržovat invariantu, a to že všechny kamínky v $C$ vždy budou lepší než všechny kamínky co nejsou v $C$. Na začátku budou v $C$ všechny kamínky.
+
+V rámci jednoho kola zahazování budeme porovnávat úseky od kandidáta ke kandidátovi, přesněji takové, které začínají kandidátem a končí kandidátem následujícím. Z těhto úseků vybereme ten nejkrásnější, a zahodíme všechny kandidáty, jejihž úsek je méně krásný. Pokud porovnáváme dva úseky, z nihž jeden je prefixem toho druhého, tak považujeme za krásnější ten kratší. Víme totiž, že hned za tímto úsekem je kandidát, a proto je zbytek náhrdelníku za ním nutně krásnější.
+
+Uvažujme například náhrdelník s kameny s krásami $3,1,3,2,3,2,3,2,1$. Aktuálně jsou kandidáti všechny kameny s krásou $3$. Náš algoritmus porovná úseky $\overline{3,1},\overline{3,2},\overline{3,2},\overline{3,2,1}$ a zahodí prvního a čtvrtého kandidáta.
+
+Jedno toto kolo je možné snadno vyhodnotit v lineárním čase. Stačí nám porovnat každý úsek s nejlepším aktuálně známým, což zvládneme v lineárním čase vzhledem k délce daného úseku. Každý kámen je v právě jednom úseku, takže v součtu zaberou všechna porovnání lineární čas.
+
+Tuto operaci budeme opakovat, dokud nebudou všechny úseky stejně krásné. V tom případě jsme našli všechna řešení a vypíšeme libovolné z nich. Tento algoritmus je sice korektní, ale potenciálně pomalý, protože kandidátky může zahazovat velmi pomalu. Patologickým případem by byl náhrdelník, který má všechny kamínky stejně krásné až na jeden, který je o něco ošklivější. Na něm by algoritmus běžel v kvadratickém čase.
+
+Tento problém však můžeme vyřešit prostou optimalizací. Pokud najdeme více nejkrásnějších úseků v jedné řadě za sebou, tak zahodíme všechny až na ten první. Úsek, za kterým následuje kandidát, bude totiž nutně lepší než úsek, za kterým kandidát nenásleduje. To znamená, že z řady dvou a více nejkrásnějších úseků můžeme odstranit ten poslední, což znamená, že můžeme odstranit i všechny ostatní.
+
+V předchozím příkladě s úseky $\overline{3,1},\overline{3,2},\overline{3,2},\overline{3,2,1}$ náš upravený algoritmus ponechá už jen druhého kandidáta.
+
+Podívejme se na libovolné dva sousední kandidáty. Pokud po jednom z nich následuje suboptimální úsek, tak bude alespoň jeden z nich v následujícím kole odstraněn. Pokud po obou následují optimální úseky, tak bude alespoň ten druhý z nich v příštím kole odstraněn. Každé kolo tedy z každé dvojice sousedních kandidátů alespoň jednoho vyřadí a tedy sníží počet kandidátů v nejhůře na polovinu. Kol tedy bude nejhůře $\log n$ (kde $n$ je počet kamínků) a algoritmus tedy poběží v $\mathcal{O} \left(n \log n\right)$ čase. Bude potřebovat $\mathcal{O} \left(n\right)$ paměti.
+
+\end{document}
