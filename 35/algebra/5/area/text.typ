@@ -7,7 +7,7 @@
 #import "visualize.typ": area_diagram
 
 Projdeme všechny orientované úsečky mnohoúhelníka, buď po nebo proti směru hodinových ručiček, a spočítáme obsah plochy pod každou z nich.
-Obasahy pod úsečkami vedoucími doprava sečteme, obsah pod úsečkami vedoucími doleva od součtu odečteme.
+Obsahy pod úsečkami vedoucími doprava sečteme, obsah pod úsečkami vedoucími doleva od součtu odečteme.
 
 #figure(
     area.image,
@@ -16,7 +16,7 @@ Obasahy pod úsečkami vedoucími doprava sečteme, obsah pod úsečkami vedouc�
 
 Obsah plochy (viz @area[obrázek]) pod úsečkou s vrcholy $(x_1, y_1)$ a $(x_2, y_2)$ vypočítáme pomocí vzorce $A = 1 / 2 (x_2 - x_1) (y_1 + y_2)$.
 Jedná se o vzorec pro obsah obdélníka, do kterého byla dosazena průměrná výška plochy.
-Tím získáme oritentovaný obsah plochy pod touto úsečkou, který bude kladný tehdy, kdy bude druhý bod napravo od prvního.
+Tím získáme orientovaný obsah plochy pod touto úsečkou, který bude kladný tehdy, kdy bude druhý bod napravo od prvního.
 
 Tyto orientované obsahy prostě sečteme.
 V závislosti na tom, jestli jsme body procházeli po nebo proti směru hodinových ručiček, nám vyjde buď obsah našeho mnohoúhelníku, nebo hodnota obsahu opačná.
@@ -24,12 +24,12 @@ Vezmeme tedy absolutní hodnotu výsledku a získáme řešení.
 
 Algoritmus využívá jednoduchého pozorování.
 Podívejme se pro daný bod na rozdíl počtu úseček vedoucími nad ním doprava a doleva. 
-Každý bod uvnitř mnohoúhelníku má nad sebou o jednu více úsečku procházající doprava, zatímco bod mimo mnohoúhelník má nad sebou obou druhů úseček stejně.
+Každý bod uvnitř mnohoúhelníku má nad sebou o jednu více úsečku procházející doprava, zatímco bod mimo mnohoúhelník má nad sebou obou druhů úseček stejně.
 Například bod $x$ na @lines[obrázku] je uvnitř mnohoúhelníka a má nad sebou dvě úsečky vedoucí doprava a jen jednu vedoucí doleva, zatímco bod $y$ má od každé jednu.
 
 #figure(
     lines.image,
-    caption: "Bud uvnitř a vně mnohoúhleníku"
+    caption: "Bod uvnitř a vně mnohoúhleníku"
 ) <lines>
 
 Obsahy ploch pod úsečkami budou záviset na zvolené ose $x$, ale celkový součet to neovlivní.

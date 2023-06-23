@@ -28,7 +28,7 @@ Předpokládejme, že jsou tyto tři vektory lineárně závislé.
 To znamená, že jeden z nich je možné vyjádřit jako lineární kombinaci zbylých dvou.
 Vlastnosti, že $x_0 < x_1 < x_2$, budeme využívat jen z části.
 Bude nám stačit to, že jsou všechny hodnoty $x$ navzájem různé.
-Teď všechny tři vektory zastávají ekvivalentní role, takže můžeme bez stráty na obecnosti předpokládat, že je možné jako lineární kombinaci ostatních vyjádřit právě třetí řádek.
+Teď všechny tři vektory zastávají ekvivalentní role, takže můžeme bez ztráty na obecnosti předpokládat, že je možné jako lineární kombinaci ostatních vyjádřit právě třetí řádek.
 Získáme soustavu rovnic:
 
 $
