@@ -50,7 +50,8 @@ Na @trace[obrázku] je znázorněn běh tohoto algoritmu. Modře je vyznačena a
         (12, 9),
         (8, 9),
         (13, 12),
-        (2, 11),
+        (6, 10),
+        (3, 11),
     );
 
     let width = 20;
