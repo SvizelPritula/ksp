@@ -26,9 +26,9 @@
 
 Kamínek $a$ prohlásíme za \textit{lepší} než kamínek $b$, pokud náhrdelník začínající kamínkem $a$ je hezčí než náhrdelník začínající kamínkem $b$. Snažíme se najít co nejlepší kamínek.
 
-Budeme si udržovat množinu $C$ kandidátů na pozici nejlepšího kamínku. Tuto množinu budeme postupně redukovat, dokud nám nezbyde buď jeden nejlepší kamínek, nebo množina kamínků na děleném prvním místě. Budeme udržovat invariantu, a to že všechny kamínky v $C$ vždy budou lepší než všechny kamínky co nejsou v $C$. Na začátku budou v $C$ všechny kamínky.
+Budeme si udržovat množinu $C$ kandidátů na pozici nejlepšího kamínku. Tuto množinu budeme postupně redukovat, dokud nám nezbude buď jeden nejlepší kamínek, nebo množina kamínků na děleném prvním místě. Budeme udržovat invariantu, a to že všechny kamínky v $C$ vždy budou lepší než všechny kamínky co nejsou v $C$. Na začátku budou v $C$ všechny kamínky.
 
-V rámci jednoho kola zahazování budeme porovnávat úseky od kandidáta ke kandidátovi, přesněji takové, které začínají kandidátem a končí kandidátem následujícím. Z těhto úseků vybereme ten nejkrásnější, a zahodíme všechny kandidáty, jejihž úsek je méně krásný. Pokud porovnáváme dva úseky, z nihž jeden je prefixem toho druhého, tak považujeme za krásnější ten kratší. Víme totiž, že hned za tímto úsekem je kandidát, a proto je zbytek náhrdelníku za ním nutně krásnější.
+V rámci jednoho kola zahazování budeme porovnávat úseky od kandidáta ke kandidátovi, přesněji takové, které začínají kandidátem a končí kandidátem následujícím. Z těchto úseků vybereme ten nejkrásnější, a zahodíme všechny kandidáty, jejichž úsek je méně krásný. Pokud porovnáváme dva úseky, z nichž jeden je prefixem toho druhého, tak považujeme za krásnější ten kratší. Víme totiž, že hned za tímto úsekem je kandidát, a proto je zbytek náhrdelníku za ním nutně krásnější.
 
 Uvažujme například náhrdelník s kameny s krásami $3,1,3,2,3,2,3,2,1$. Aktuálně jsou kandidáti všechny kameny s krásou $3$. Náš algoritmus porovná úseky $\overline{3,1},\overline{3,2},\overline{3,2},\overline{3,2,1}$ a zahodí prvního a čtvrtého kandidáta.
 
