@@ -15,6 +15,7 @@ Obasahy pod úsečkami vedoucími doprava sečteme, obsah pod úsečkami vedouc�
 ) <area>
 
 Obsah plochy (viz @area[obrázek]) pod úsečkou s vrcholy $(x_1, y_1)$ a $(x_2, y_2)$ vypočítáme pomocí vzorce $A = 1 / 2 (x_2 - x_1) (y_1 + y_2)$.
+Jedná se o vzorec pro obsah obdélníka, do kterého byla dosazena průměrná výška plochy.
 Tím získáme oritentovaný obsah plochy pod touto úsečkou, který bude kladný tehdy, kdy bude druhý bod napravo od prvního.
 
 Tyto orientované obsahy prostě sečteme.
