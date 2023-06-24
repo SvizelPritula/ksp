@@ -54,7 +54,7 @@ def find_differences(restriction: Callable[[Expression, int], bool], depth: int,
             yield (n, unres, res)
 
 
-rounds = 8
+rounds = 9
 
 
 def check(ex: Expression, round: int) -> bool:

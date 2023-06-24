@@ -1,0 +1,48 @@
+\documentclass{article}
+
+\usepackage[a4paper, margin=2cm]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[czech]{babel}
+\usepackage{fvextra}
+\usepackage{csquotes}
+\usepackage{parskip}
+
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{graphicx}
+
+\usepackage[hidelinks, unicode, pdfusetitle]{hyperref}
+
+\graphicspath{{images}}
+
+\title{35-5-4 Kalkulačka}
+\author{Benjamin Swart}
+
+\begin{document}
+\maketitle
+
+\section{Univerzální suboptimální řešení}
+
+Nejprve pár poznatků. Každé číslo je možné vyrobit tak, že jej převedeme do devítkové soustavy. Do kalkulačky nejprve vložíme první cifru tohoto čísla, poté projdeme zbylé cifry a každou přičteme poté, co mezivýsledek vynásobíme devíti. Pokud je číslo záporné, tak cifry odčítáme a první cifru nejprve odečteme od nuly. Například číslo 25 můžeme vyrobit příkladem \texttt{2*9+7}. Samozřejmě ho však můžeme vyrobit i jako \texttt{5*5}, takže je naše řešení suboptimální. Tato metoda nám však stanoví horní mez pro počet operací na $2 * \lceil\log_9 K\rceil - 1$ pro kladná $K$ a $2 * \lceil\log_9 \left(-K\right)\rceil$ pro záporná $K$.
+
+\section{Potřebné operace}
+\label{needed}
+
+Operace \textit{modulo} je zjevně zbytečná. Nemůžeme s ní vyrobit žádná čísla která nemůžeme získat s nulovou spotřebou, protože $n \mod m \in \left<0; m\right>$ a $m \in \left<0; 9\right>$.
+
+Odčítání je nezbytně nutné k vytvoření záporných čísel, jakožto jediná operace, která nezachovává vždy znaménko. Jediný způsob, jak získat záporné číslo, je odečtením $m \in \left<1; 9\right>$ od $m \in \left<0; m - 1\right>$. Naopak jediný způsob jak získat kladné číslo je obdobně přičtení cifry k malému zápornému číslu.
+
+Pokud se nám změní znaménko čísla na displeji, bude nutně nové číslo $n$ splňovat $|n| \leq 9$. Taková čísla dokážeme vyrobit snadno, takže nedává smysl během nastavování měnit znaménko. Pokud chceme vytvořit kladné číslo, tak nemá smysl mít mezivýsledek záporný, a pokud vyrábíme záporné číslo, tak je nejlepší volbou na začátku odečíst nějakou cifru od nuly a poté mít mezivýsledek záporný vždy.
+
+Bohužel neplatí, že by nikdy nedávalo smysl použít dělení. Například číslo $853$ se dá nejlépe vytvořit pomocí příkladu \texttt{5*8*8*8/3}. Neexistuje stejně dlouhá posloupnost operací bez dělení, která by číslo $853$ vytvořila. Využívá se zde toho, že dělení zaokrouhluje dolů, jinak by bylo dělení opravdu zbytečné. Optimální příklad pro výrobu čísla $1339231$ dokonce používá dělení dvě: \texttt{7*9*9*9*9*9*9*9/5/5}.
+
+\section{Algoritmus}
+
+Budeme prohledávat stavový prostor prohledáváním do šířky. Začneme s čísly $0, \dots, 9$ a zkončíme, jakmile narazíme na hledané číslo $K$. Můžeme vyhledávání omezit jen na tu polovinu číselné osy, ve které se nachází $K$, jak bylo popsáno v sekci \ref{needed}.
+
+Časová složitost prohledávání do hloubky je v případě konstantního počtu operací lineární ku počtu prohledaných stavů. Víme, že k nalezení hledaného čísla nepotřebujeme více než $2\lceil\log_9 K\rceil$ kroků. Z našich operací roste nejrychleji násobení devíti, takže největší číslo, které můžeme při vyhledávání potkat, bude $9^{2\lceil\log_9 K\rceil}$. Toto číslo bude určitě menší než $9^{2 \left(1 + \log_9 K\right)} = 81 n^2$, takže časová i paměťová složitost bude nejhůře $\mathcal{O}\left(n^2\right)$.
+
+\end{document}
