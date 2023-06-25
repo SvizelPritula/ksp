@@ -39,10 +39,12 @@ Pokud se nám změní znaménko čísla na displeji, bude nutně nové číslo $
 
 Bohužel neplatí, že by nikdy nedávalo smysl použít dělení. Například číslo $853$ se dá nejlépe vytvořit pomocí příkladu \texttt{5*8*8*8/3}. Neexistuje stejně dlouhá posloupnost operací bez dělení, která by číslo $853$ vytvořila. Využívá se zde toho, že dělení zaokrouhluje dolů, jinak by bylo dělení opravdu zbytečné. Optimální příklad pro výrobu čísla $1339231$ dokonce používá dělení dvě: \texttt{7*9*9*9*9*9*9*9/5/5}.
 
+Pokud bychom dělení nemohli použít, tak by stačilo použít dynamické programování v $\mathcal{O}\left(\lvert K \rvert\right)$.
+
 \section{Algoritmus}
 
 Budeme prohledávat stavový prostor prohledáváním do šířky. Začneme s čísly $0, \dots, 9$ a skončíme, jakmile narazíme na hledané číslo $K$. Můžeme vyhledávání omezit jen na tu polovinu číselné osy, ve které se nachází $K$, jak bylo popsáno v sekci \ref{needed}.
 
-Časová složitost prohledávání do hloubky je v případě konstantního počtu operací lineární ku počtu prohledaných stavů. Víme, že k nalezení hledaného čísla nepotřebujeme více než $2\lceil\log_9 K\rceil$ kroků. Z našich operací roste nejrychleji násobení devíti, takže největší číslo, které můžeme při vyhledávání potkat, bude $9^{2\lceil\log_9 K\rceil}$. Toto číslo bude určitě menší než $9^{2 \left(1 + \log_9 K\right)} = 81 K^2$, takže časová i paměťová složitost bude nejhůře $\mathcal{O}\left(\lvert K \rvert^2\right)$.
+Časová složitost prohledávání do hloubky je v případě konstantního počtu operací lineární ku počtu prohledaných stavů. Víme, že k nalezení hledaného čísla nepotřebujeme více než $2\lceil\log_9 K\rceil$ kroků. Z našich operací roste nejrychleji násobení devíti, takže největší číslo, které můžeme při vyhledávání potkat, bude $9^{2\lceil\log_9 K\rceil}$. (Počet prakticky dosažitelných stavů bude výrazně menší, ale je těžko odhadnutelný.) Toto číslo bude určitě menší než $9^{2 \left(1 + \log_9 K\right)} = 81 K^2$, takže časová i paměťová složitost bude nejhůře $\mathcal{O}\left(K^2\right)$.
 
 \end{document}

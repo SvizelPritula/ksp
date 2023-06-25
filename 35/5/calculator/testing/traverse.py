@@ -54,32 +54,51 @@ def find_differences(restriction: Callable[[Expression, int], bool], depth: int,
             yield (n, unres, res)
 
 
-rounds = 9
+rounds = 8
+
+
+def has_small_divisor(value: int):
+    for p in [2, 3, 5, 7]:
+        if value % p == 0:
+            return True
+
+    return False
+
+
+def is_simple(value: int):
+    if value < 2:
+        return False
+
+    for p in [2, 3, 5, 7]:
+        while value % p == 0:
+            value //= p
+
+    return value == 0
 
 
 def check(ex: Expression, round: int) -> bool:
-    ops = ex.operations
+    val = ex.eval()
 
-    for i, op in enumerate(ops):
-        if op.operation == '-':
-            return False
+    if not has_small_divisor(val):
+        return True
 
-        if op.operation == '/' and round < rounds - 1:
-            return False
+    if len(ex.operations) == 0:
+        return True
 
-    return True
+    return ex.operations[-1].operation == '*'
 
 
-errors = find_differences(
-    check,
-    rounds,
-    lambda _: True
-)
+if __name__ == "__main__":
+    errors = find_differences(
+        check,
+        rounds,
+        lambda _: True
+    )
 
-errors = sorted(errors, key=lambda t: t[0])
+    errors = sorted(errors, key=lambda t: t[0])
 
-for (n, unres, res) in errors:
-    if res != None:
-        print(f"{n}: {unres} / {res}")
-    else:
-        print(f"{n}: {unres} / Impossible")
+    for (n, unres, res) in errors:
+        if res != None:
+            print(f"{n}: {unres} / {res}")
+        else:
+            print(f"{n}: {unres} / Impossible")
