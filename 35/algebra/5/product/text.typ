@@ -1,3 +1,7 @@
+#set document(
+    title: "35-5-S - Součin",
+    author: "Benjamin Swart"
+)
 #set page("a4")
 #set text(lang: "cs")
 #set par(justify: true)

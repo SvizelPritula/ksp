@@ -1,4 +1,8 @@
-#set page("a4")
+#set document(
+    title: "35-5-S - Obsah mnohoúhelníku",
+    author: "Benjamin Swart"
+)
+#set page("a4", numbering: "1")
 #set text(lang: "cs")
 #set par(justify: true)
 
@@ -37,6 +41,8 @@ Pokud osu $x$ posuneme dolu o $Delta y$, tak ke každému obsahu přičteme $Del
 Součet rozdílů po sobě jdoucích souřadnic $x$ bude zjevně nulový, protože začínáme a končíme ve stejném bodě.
 
 Na @trace[obrázku] je znázorněn běh tohoto algoritmu. Modře je vyznačena aktuálně sečtená plocha, zeleně a červeně jsou označeny přičítané a odčítané plochy.
+
+Tento algoritmus poběží v čase $cal(O)(n)$. Paměti mu stačí $cal(O)(1)$, pokud může číst souřadnice bodů postupně.
 
 #{
     let points = (

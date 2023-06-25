@@ -1,3 +1,7 @@
+#set document(
+    title: "35-5-S - Polynom",
+    author: "Benjamin Swart"
+)
 #set page("a4", numbering: "1")
 #set text(lang: "cs")
 #set par(justify: true)
